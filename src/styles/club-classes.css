@@ -1,0 +1,480 @@
+/* Club Classes Styles - VS Code Dark Theme with Red Accents */
+:root {
+    /* VS Code Dark Theme Colors */
+    --club-bg-primary: #1e1e1e;
+    --club-bg-secondary: #252526;
+    --club-bg-tertiary: #2d2d30;
+    --club-text-primary: #d4d4d4;
+    --club-text-secondary: #cccccc;
+    --club-text-muted: #858585;
+
+    /* Red Accents for headers and highlights */
+    --club-accent-primary: #ef4444;
+    --club-accent-secondary: #dc2626;
+    --club-accent-gradient: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    --club-shadow-glow: 0 0 20px rgba(239, 68, 68, 0.3);
+
+    /* VS Code Syntax Colors */
+    --vscode-keyword: #569cd6;
+    --vscode-string: #ce9178;
+    --vscode-comment: #6a9955;
+    --vscode-function: #dcdcaa;
+    --vscode-number: #b5cea8;
+    --vscode-type: #4ec9b0;
+}
+
+body.club-theme {
+    background: var(--club-bg-primary);
+    color: var(--club-text-primary);
+    padding-top: 60px;
+    /* Space for fixed header */
+}
+
+.club-container {
+    min-height: calc(100vh - 60px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    position: relative;
+}
+
+/* Subtle animated background accent */
+.club-container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: radial-gradient(circle at 20% 50%,
+            rgba(239, 68, 68, 0.05) 0%,
+            transparent 50%),
+        radial-gradient(circle at 80% 80%,
+            rgba(220, 38, 38, 0.05) 0%,
+            transparent 50%);
+    animation: pulse 8s ease-in-out infinite;
+    pointer-events: none;
+}
+
+.club-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.club-title {
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    background: var(--club-accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -0.02em;
+}
+
+.club-subtitle {
+    font-size: 1.3rem;
+    color: var(--club-text-secondary);
+    font-weight: 400;
+}
+
+.club-menu-grid {
+    display: grid;
+    gap: 2rem;
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.club-menu-option {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    padding: 2.5rem 3rem;
+    background: var(--club-bg-secondary);
+    border: 2px solid #3e3e42;
+    border-radius: 20px;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.club-menu-option::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg,
+            transparent,
+            rgba(239, 68, 68, 0.1),
+            transparent);
+    transition: left 0.5s;
+}
+
+.club-menu-option:hover::before {
+    left: 100%;
+}
+
+.club-menu-option:hover {
+    transform: translateY(-5px);
+    background: var(--club-bg-tertiary);
+    border-color: var(--club-accent-primary);
+    box-shadow: 0 20px 60px rgba(239, 68, 68, 0.3);
+}
+
+.club-menu-icon {
+    font-size: 4rem;
+    flex-shrink: 0;
+    transition: transform 0.3s;
+}
+
+.club-menu-option:hover .club-menu-icon {
+    transform: scale(1.1) rotate(5deg);
+}
+
+.club-menu-content {
+    flex: 1;
+}
+
+.club-menu-content h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0 0 0.5rem 0;
+    background: linear-gradient(135deg,
+            var(--club-text-primary) 0%,
+            rgba(235, 228, 228, 0.7) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.club-menu-content p {
+    margin: 0;
+    color: var(--club-text-secondary);
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+.club-menu-arrow {
+    font-size: 2.5rem;
+    color: rgba(239, 68, 68, 0.4);
+    transition: all 0.3s;
+    flex-shrink: 0;
+}
+
+.club-menu-option:hover .club-menu-arrow {
+    transform: translateX(10px);
+    color: var(--club-accent-primary);
+}
+
+/* Back button styles removed - now using ClubHeader component */
+
+
+/* Class content page */
+.club-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 2rem 4rem;
+    /* Reduced top padding since header provides spacing */
+}
+
+.club-content-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.club-content-title {
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    background: var(--club-accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.club-content-description {
+    font-size: 1.2rem;
+    color: var(--club-text-secondary);
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.8;
+}
+
+.club-section {
+    background: var(--club-bg-secondary);
+    border: 1px solid #3e3e42;
+    border-radius: 16px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+.club-section h2 {
+    color: var(--club-accent-primary);
+    margin-bottom: 1.5rem;
+    font-size: 2rem;
+}
+
+.club-section p {
+    color: var(--club-text-secondary);
+    line-height: 1.8;
+    margin-bottom: 1rem;
+}
+
+.club-section code {
+    color: #ffffff;
+    background: transparent;
+    padding: 0;
+    border: none;
+    font-family: 'Fira Code', monospace;
+}
+
+/* Club Image and Video Styling */
+.club-image {
+    width: 100%;
+    max-width: 800px;
+    margin: 1.5rem auto;
+    display: flex;
+    justify-content: center;
+}
+
+.club-image img,
+.club-image video {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    border-radius: 12px;
+    border: 1px solid #3e3e42;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Code blocks now handled by CodeBlock.astro component */
+
+/* Operations Table Styling */
+.operations-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    background: var(--club-bg-tertiary);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.operations-table thead {
+    background: #000000;
+}
+
+.operations-table thead tr {
+    border-bottom: 2px solid var(--club-accent-primary);
+}
+
+.operations-table th {
+    padding: 1rem 1.5rem;
+    text-align: left;
+    font-weight: 600;
+    color: var(--club-accent-primary);
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.operations-table tbody tr {
+    border-bottom: 1px solid #3e3e42;
+    transition: all 0.2s ease;
+}
+
+.operations-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.operations-table tbody tr:hover {
+    background: rgba(239, 68, 68, 0.08);
+    transform: translateX(4px);
+}
+
+.operations-table td {
+    padding: 1rem 1.5rem;
+    color: var(--club-text-secondary);
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+.operations-table td:first-child {
+    font-weight: 500;
+}
+
+.operations-table code {
+    background: transparent;
+    color: #ffffff;
+    padding: 0;
+    border-radius: 0;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.95rem;
+    border: none;
+}
+
+.operations-table td:nth-child(2) {
+    color: #ffffff;
+    font-family: 'Fira Code', monospace;
+    font-weight: 500;
+}
+
+/* Club Problem Link Component */
+.club-problem {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.5rem;
+    margin-bottom: 0.75rem;
+    background: linear-gradient(135deg,
+            rgba(185, 28, 28, 0.3) 0%,
+            rgba(153, 27, 27, 0.25) 100%);
+    border: 1px solid rgba(239, 68, 68, 0.4);
+    border-radius: 12px;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.club-problem::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg,
+            transparent,
+            rgba(239, 68, 68, 0.15),
+            transparent);
+    transition: left 0.5s;
+}
+
+.club-problem:hover::before {
+    left: 100%;
+}
+
+.club-problem:hover {
+    background: linear-gradient(135deg,
+            rgba(185, 28, 28, 0.45) 0%,
+            rgba(153, 27, 27, 0.4) 100%);
+    border-color: var(--club-accent-primary);
+    transform: translateX(4px);
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+.club-problem-title {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--club-text-primary);
+    margin: 0;
+    flex: 1;
+}
+
+.club-problem-difficulty {
+    padding: 0.35rem 0.9rem;
+    border-radius: 9999px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: capitalize;
+    letter-spacing: 0.02em;
+}
+
+/* Difficulty color variants */
+.club-problem-difficulty.easy {
+    background: rgba(34, 197, 94, 0.2);
+    color: #4ade80;
+    border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.club-problem-difficulty.normal,
+.club-problem-difficulty.medium {
+    background: rgba(59, 130, 246, 0.2);
+    color: #60a5fa;
+    border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+.club-problem-difficulty.hard {
+    background: rgba(239, 68, 68, 0.2);
+    color: #f87171;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.club-problem-difficulty.very-hard,
+.club-problem-difficulty.insane {
+    background: rgba(168, 85, 247, 0.2);
+    color: #c084fc;
+    border: 1px solid rgba(168, 85, 247, 0.3);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .club-title {
+        font-size: 2.5rem;
+    }
+
+    .club-subtitle {
+        font-size: 1.1rem;
+    }
+
+    .club-menu-option {
+        flex-direction: column;
+        text-align: center;
+        gap: 1.5rem;
+        padding: 2rem;
+    }
+
+    .club-menu-icon {
+        font-size: 3rem;
+    }
+
+    .club-menu-content h2 {
+        font-size: 1.5rem;
+    }
+
+    .club-menu-content p {
+        font-size: 1rem;
+    }
+
+    .club-menu-arrow {
+        transform: rotate(90deg);
+    }
+
+    .club-menu-option:hover .club-menu-arrow {
+        transform: rotate(90deg) translateX(10px);
+    }
+
+    .club-back-button {
+        top: 1rem;
+        left: 1rem;
+        padding: 0.75rem 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .club-title {
+        font-size: 2rem;
+    }
+
+    .club-subtitle {
+        font-size: 1rem;
+    }
+
+    .club-container {
+        padding: 1rem;
+    }
+
+    .club-content {
+        padding: 6rem 1rem 2rem;
+    }
+}

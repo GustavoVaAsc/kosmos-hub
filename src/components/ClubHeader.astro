@@ -1,0 +1,457 @@
+---
+interface Props {
+    currentPage?: string;
+}
+
+const { currentPage = "menu" } = Astro.props;
+
+const classes = [
+    { name: "Binary Search Tree", slug: "bst", icon: "🌳" },
+    { name: "Kadane's Algorithm", slug: "kadane", icon: "📊" },
+];
+
+// Determine the page title based on currentPage
+const getPageTitle = () => {
+    if (currentPage === "menu") return "CPCFI Classes";
+    const currentClass = classes.find((cls) => cls.slug === currentPage);
+    return currentClass ? currentClass.name : "CPCFI Classes";
+};
+
+const pageTitle = getPageTitle();
+---
+
+<header class="club-header-nav">
+    <div class="club-header-container">
+        <div class="header-left">
+            <!-- Hamburger Menu -->
+            <button
+                class="hamburger-menu"
+                id="hamburger-btn"
+                aria-label="Toggle menu"
+            >
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
+
+            <!-- Logo and Title -->
+            <a href="/club-classes" class="header-logo">
+                <img src="/logo.png" alt="CPCFI Logo" />
+            </a>
+
+            <h1 class="header-title">{pageTitle}</h1>
+        </div>
+
+        <!-- Language Switch -->
+        <div class="language-switch">
+            <button class="lang-btn active" data-lang="en">EN</button>
+            <span class="lang-divider">|</span>
+            <button class="lang-btn" data-lang="es">ES</button>
+        </div>
+    </div>
+</header>
+
+<!-- Slide-out Menu -->
+<div class="menu-overlay" id="menu-overlay"></div>
+<nav class="slide-menu" id="slide-menu">
+    <div class="menu-header">
+        <h2>Classes</h2>
+        <button class="close-menu" id="close-menu-btn" aria-label="Close menu">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path
+                    d="M18 6L6 18M6 6L18 18"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"></path>
+            </svg>
+        </button>
+    </div>
+
+    <ul class="menu-list">
+        <li>
+            <a
+                href="/club-classes"
+                class={currentPage === "menu" ? "active" : ""}
+            >
+                <span class="menu-icon">📚</span>
+                <span>All Classes</span>
+            </a>
+        </li>
+        {
+            classes.map((cls) => (
+                <li>
+                    <a
+                        href={`/club-classes/${cls.slug}`}
+                        class={currentPage === cls.slug ? "active" : ""}
+                    >
+                        <span class="menu-icon">{cls.icon}</span>
+                        <span>{cls.name}</span>
+                    </a>
+                </li>
+            ))
+        }
+    </ul>
+
+    <div class="menu-footer">
+        <a href="/" class="home-link">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path
+                    d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"></path>
+            </svg>
+            <span>Back to Home</span>
+        </a>
+    </div>
+</nav>
+
+<style>
+    .club-header-nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        background: var(--club-bg-secondary);
+        border-bottom: 1px solid #3e3e42;
+        z-index: 1000;
+        height: 60px;
+    }
+
+    .club-header-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 1.5rem;
+    }
+
+    /* Header Left Section */
+    .header-left {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        flex: 1;
+    }
+
+    /* Hamburger Menu Button */
+    .hamburger-menu {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        transition: all 0.3s;
+        flex-shrink: 0;
+    }
+
+    .hamburger-line {
+        width: 24px;
+        height: 2px;
+        background: var(--club-text-primary);
+        transition: all 0.3s;
+        border-radius: 2px;
+    }
+
+    .hamburger-menu:hover .hamburger-line {
+        background: var(--club-accent-primary);
+    }
+
+    /* Logo */
+    .header-logo {
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        color: var(--club-text-primary);
+        transition: all 0.3s;
+        flex-shrink: 0;
+    }
+
+    .header-logo:hover {
+        opacity: 0.8;
+    }
+
+    .header-logo img {
+        width: 48px;
+        height: 48px;
+        border-radius: 8px;
+    }
+
+    .logo-text {
+        font-size: 1.1rem;
+        font-weight: 600;
+        display: none;
+    }
+
+    @media (min-width: 640px) {
+        .logo-text {
+            display: block;
+        }
+    }
+
+    /* Header Title */
+    .header-title {
+        margin: 0;
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--club-text-primary);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    @media (max-width: 768px) {
+        .header-title {
+            font-size: 1.1rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .header-title {
+            font-size: 1rem;
+            max-width: 150px;
+        }
+
+        .header-left {
+            gap: 0.5rem;
+        }
+    }
+
+    /* Language Switch */
+    .language-switch {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: var(--club-bg-tertiary);
+        padding: 0.4rem 0.8rem;
+        border-radius: 8px;
+        border: 1px solid #3e3e42;
+    }
+
+    .lang-btn {
+        background: none;
+        border: none;
+        color: var(--club-text-muted);
+        font-size: 0.85rem;
+        font-weight: 600;
+        cursor: pointer;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        transition: all 0.2s;
+    }
+
+    .lang-btn:hover {
+        color: var(--club-text-primary);
+        background: rgba(255, 255, 255, 0.05);
+    }
+
+    .lang-btn.active {
+        color: var(--club-accent-primary);
+        background: rgba(239, 68, 68, 0.1);
+    }
+
+    .lang-divider {
+        color: #3e3e42;
+        font-size: 0.9rem;
+    }
+
+    /* Menu Overlay */
+    .menu-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.7);
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s;
+        z-index: 1100;
+    }
+
+    .menu-overlay.active {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    /* Slide Menu */
+    .slide-menu {
+        position: fixed;
+        top: 0;
+        left: -300px;
+        width: 280px;
+        height: 100vh;
+        background: var(--club-bg-secondary);
+        border-right: 1px solid #3e3e42;
+        z-index: 1200;
+        transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto;
+    }
+
+    .slide-menu.active {
+        left: 0;
+    }
+
+    .menu-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.25rem 1.5rem;
+        border-bottom: 1px solid #3e3e42;
+    }
+
+    .menu-header h2 {
+        margin: 0;
+        font-size: 1.25rem;
+        color: var(--club-accent-primary);
+    }
+
+    .close-menu {
+        background: none;
+        border: none;
+        color: var(--club-text-muted);
+        cursor: pointer;
+        padding: 0.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s;
+        border-radius: 4px;
+    }
+
+    .close-menu:hover {
+        color: var(--club-text-primary);
+        background: rgba(255, 255, 255, 0.05);
+    }
+
+    /* Menu List */
+    .menu-list {
+        list-style: none;
+        padding: 1rem 0;
+        margin: 0;
+        flex: 1;
+    }
+
+    .menu-list li {
+        margin: 0;
+    }
+
+    .menu-list a {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 0.875rem 1.5rem;
+        color: var(--club-text-secondary);
+        text-decoration: none;
+        transition: all 0.2s;
+        border-left: 3px solid transparent;
+    }
+
+    .menu-list a:hover {
+        background: rgba(255, 255, 255, 0.03);
+        color: var(--club-text-primary);
+        border-left-color: var(--club-accent-primary);
+    }
+
+    .menu-list a.active {
+        background: rgba(239, 68, 68, 0.1);
+        color: var(--club-accent-primary);
+        border-left-color: var(--club-accent-primary);
+        font-weight: 600;
+    }
+
+    .menu-icon {
+        font-size: 1.5rem;
+        width: 32px;
+        text-align: center;
+    }
+
+    /* Menu Footer */
+    .menu-footer {
+        padding: 1rem 1.5rem;
+        border-top: 1px solid #3e3e42;
+    }
+
+    .home-link {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.75rem 1rem;
+        background: var(--club-bg-tertiary);
+        border: 1px solid #3e3e42;
+        border-radius: 8px;
+        color: var(--club-text-secondary);
+        text-decoration: none;
+        transition: all 0.2s;
+    }
+
+    .home-link:hover {
+        background: var(--club-bg-primary);
+        border-color: var(--club-accent-primary);
+        color: var(--club-text-primary);
+    }
+
+    .home-link svg {
+        flex-shrink: 0;
+    }
+
+    /* Responsive */
+    @media (max-width: 480px) {
+        .slide-menu {
+            width: 100%;
+            left: -100%;
+        }
+    }
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const hamburgerBtn = document.getElementById("hamburger-btn");
+        const closeMenuBtn = document.getElementById("close-menu-btn");
+        const slideMenu = document.getElementById("slide-menu");
+        const menuOverlay = document.getElementById("menu-overlay");
+
+        const openMenu = () => {
+            slideMenu?.classList.add("active");
+            menuOverlay?.classList.add("active");
+            document.body.style.overflow = "hidden";
+        };
+
+        const closeMenu = () => {
+            slideMenu?.classList.remove("active");
+            menuOverlay?.classList.remove("active");
+            document.body.style.overflow = "";
+        };
+
+        hamburgerBtn?.addEventListener("click", openMenu);
+        closeMenuBtn?.addEventListener("click", closeMenu);
+        menuOverlay?.addEventListener("click", closeMenu);
+
+        // Language switch
+        const langButtons = document.querySelectorAll(".lang-btn");
+        langButtons.forEach((btn) => {
+            btn.addEventListener("click", () => {
+                langButtons.forEach((b) => b.classList.remove("active"));
+                btn.classList.add("active");
+
+                const lang = btn.getAttribute("data-lang");
+                console.log(`Language switched to: ${lang}`);
+                // TODO: Implement actual language switching logic
+            });
+        });
+
+        // Close menu on escape key
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape" && slideMenu?.classList.contains("active")) {
+                closeMenu();
+            }
+        });
+    });
+</script>

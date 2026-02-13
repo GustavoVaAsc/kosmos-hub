@@ -1,0 +1,62 @@
+---
+import BaseHead from "../../components/BaseHead.astro";
+import ClubHeader from "../../components/ClubHeader.astro";
+import { SITE_TITLE } from "../../consts";
+import "../../styles/club-classes.css";
+---
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <BaseHead
+            title="CPCFI Classes | {SITE_TITLE}"
+            description="Competitive Programming classes for CPCFI"
+        />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap"
+            rel="stylesheet"
+        />
+    </head>
+    <body class="club-theme">
+        <ClubHeader currentPage="menu" />
+
+        <div class="club-container">
+            <div class="club-header">
+                <h1 class="club-title">CPCFI Classes</h1>
+                <p class="club-subtitle">
+                    Competitive Programming & Data Structures
+                </p>
+            </div>
+
+            <div class="club-menu-grid">
+                <a href="/club-classes/bst" class="club-menu-option">
+                    <div class="club-menu-icon">🌳</div>
+                    <div class="club-menu-content">
+                        <h2>Binary Search Tree (BST)</h2>
+                        <p>
+                            Learn about binary search trees, their properties,
+                            operations, and applications in competitive
+                            programming.
+                        </p>
+                    </div>
+                    <div class="club-menu-arrow">→</div>
+                </a>
+
+                <a href="/club-classes/kadane" class="club-menu-option">
+                    <div class="club-menu-icon">📊</div>
+                    <div class="club-menu-content">
+                        <h2>Kadane's Algorithm</h2>
+                        <p>
+                            Master the maximum subarray problem using Kadane's
+                            algorithm and its variations for competitive
+                            programming contests.
+                        </p>
+                    </div>
+                    <div class="club-menu-arrow">→</div>
+                </a>
+            </div>
+        </div>
+    </body>
+</html>

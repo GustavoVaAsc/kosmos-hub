@@ -1,0 +1,70 @@
+---
+interface Props {
+    formula: string;
+    display?: boolean;
+}
+
+const { formula, display = false } = Astro.props;
+---
+
+<span class={display ? "math-display" : "math-inline"} data-formula={formula}
+></span>
+
+<style>
+    .math-display {
+        display: block;
+        text-align: center;
+        margin: 1.5rem 0;
+        overflow-x: auto;
+        overflow-y: hidden;
+    }
+
+    .math-inline {
+        display: inline;
+    }
+
+    /* KaTeX styling overrides for dark theme */
+    :global(.katex) {
+        font-size: 1.1em;
+        color: var(--club-text-primary, #d4d4d4);
+    }
+
+    :global(.katex-display) {
+        margin: 1.5rem 0;
+    }
+
+    :global(.katex .mord),
+    :global(.katex .mbin),
+    :global(.katex .mrel),
+    :global(.katex .mop) {
+        color: var(--club-text-primary, #d4d4d4);
+    }
+</style>
+
+<script>
+    import katex from "katex";
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const mathElements = document.querySelectorAll(
+            ".math-display, .math-inline",
+        );
+
+        mathElements.forEach((element) => {
+            const formula = element.getAttribute("data-formula");
+            const isDisplay = element.classList.contains("math-display");
+
+            if (formula) {
+                try {
+                    katex.render(formula, element as HTMLElement, {
+                        displayMode: isDisplay,
+                        throwOnError: false,
+                        trust: true,
+                    });
+                } catch (error) {
+                    console.error("KaTeX rendering error:", error);
+                    element.textContent = formula;
+                }
+            }
+        });
+    });
+</script>

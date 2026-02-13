@@ -1,0 +1,418 @@
+---
+interface Props {
+    code: string;
+    language?: string;
+    showLineNumbers?: boolean;
+}
+
+const { code, language = "cpp", showLineNumbers = false } = Astro.props;
+
+// Syntax highlighting function
+function highlightCode(code: string, lang: string): string {
+    if (lang === "text" || lang === "plaintext") {
+        return escapeHtml(code);
+    }
+
+    // C++ / C keywords
+    const cppKeywords = [
+        "alignas",
+        "alignof",
+        "and",
+        "and_eq",
+        "asm",
+        "auto",
+        "bitand",
+        "bitor",
+        "bool",
+        "break",
+        "case",
+        "catch",
+        "char",
+        "class",
+        "compl",
+        "const",
+        "constexpr",
+        "const_cast",
+        "continue",
+        "decltype",
+        "default",
+        "delete",
+        "do",
+        "double",
+        "dynamic_cast",
+        "else",
+        "enum",
+        "explicit",
+        "export",
+        "extern",
+        "false",
+        "float",
+        "for",
+        "friend",
+        "goto",
+        "if",
+        "inline",
+        "int",
+        "long",
+        "mutable",
+        "namespace",
+        "new",
+        "noexcept",
+        "not",
+        "not_eq",
+        "nullptr",
+        "operator",
+        "or",
+        "or_eq",
+        "private",
+        "protected",
+        "public",
+        "register",
+        "reinterpret_cast",
+        "return",
+        "short",
+        "signed",
+        "sizeof",
+        "static",
+        "static_assert",
+        "static_cast",
+        "struct",
+        "switch",
+        "template",
+        "this",
+        "thread_local",
+        "throw",
+        "true",
+        "try",
+        "typedef",
+        "typeid",
+        "typename",
+        "union",
+        "unsigned",
+        "using",
+        "virtual",
+        "void",
+        "volatile",
+        "wchar_t",
+        "while",
+        "xor",
+        "xor_eq",
+        "override",
+        "final",
+    ];
+
+    // Common types
+    const types = [
+        "string",
+        "vector",
+        "map",
+        "set",
+        "unordered_map",
+        "unordered_set",
+        "pair",
+        "tuple",
+        "array",
+        "deque",
+        "list",
+        "stack",
+        "queue",
+        "priority_queue",
+        "bitset",
+        "size_t",
+        "int8_t",
+        "int16_t",
+        "int32_t",
+        "int64_t",
+        "uint8_t",
+        "uint16_t",
+        "uint32_t",
+        "uint64_t",
+        "Node",
+        "BST",
+    ];
+
+    // Use placeholders to protect special patterns during processing
+    const placeholders: { [key: string]: string } = {};
+    let placeholderIndex = 0;
+
+    function createPlaceholder(content: string): string {
+        const placeholder = `__PLACEHOLDER_${placeholderIndex++}__`;
+        placeholders[placeholder] = content;
+        return placeholder;
+    }
+
+    let result = code;
+
+    // 1. Protect comments
+    result = result.replace(/(\/\/.*?$|\/\*[\s\S]*?\*\/)/gm, (match) => {
+        return createPlaceholder(
+            `<span class="comment">${escapeHtml(match)}</span>`,
+        );
+    });
+
+    // 2. Protect strings
+    result = result.replace(/("(?:[^"\\]|\\.)*")/g, (match) => {
+        return createPlaceholder(
+            `<span class="string">${escapeHtml(match)}</span>`,
+        );
+    });
+
+    // 3. Protect numbers
+    result = result.replace(
+        /\b(\d+\.?\d*|\.\d+)([eE][+-]?\d+)?\b/g,
+        (match) => {
+            return createPlaceholder(
+                `<span class="number">${escapeHtml(match)}</span>`,
+            );
+        },
+    );
+
+    // 4. Escape remaining HTML
+    result = escapeHtml(result);
+
+    // 5. Highlight keywords
+    cppKeywords.forEach((keyword) => {
+        const regex = new RegExp(`\\b(${keyword})\\b(?![^<]*>)`, "g");
+        result = result.replace(regex, '<span class="keyword">$1</span>');
+    });
+
+    // 6. Highlight types
+    types.forEach((type) => {
+        const regex = new RegExp(`\\b(${type})\\b(?![^<]*>)`, "g");
+        result = result.replace(regex, '<span class="type">$1</span>');
+    });
+
+    // 7. Highlight function names (word followed by parenthesis)
+    result = result.replace(
+        /\b([a-zA-Z_][a-zA-Z0-9_]*)\s*(?=\()(?![^<]*>)/g,
+        '<span class="function">$1</span>',
+    );
+
+    // 8. Restore placeholders
+    Object.keys(placeholders).forEach((placeholder) => {
+        result = result.replace(placeholder, placeholders[placeholder]);
+    });
+
+    return result;
+}
+
+function escapeHtml(text: string): string {
+    const map: { [key: string]: string } = {
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;",
+    };
+    return text.replace(/[&<>"']/g, (m) => map[m]);
+}
+
+const highlightedCode = highlightCode(code, language);
+---
+
+<div class="code-block-container">
+    <div class="code-block-header">
+        <span class="code-block-language">{language}</span>
+        <button class="copy-button" data-code={code}>
+            <svg
+                class="copy-icon"
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+            >
+                <path
+                    d="M4 4V12C4 12.5523 4.44772 13 5 13H11C11.5523 13 12 12.5523 12 12V4M4 4H12M4 4H3C2.44772 4 2 3.55228 2 3V3C2 2.44772 2.44772 2 3 2H5M12 4H13C13.5523 4 14 3.55228 14 3V3C14 2.44772 13.5523 2 13 2H11M5 2H11"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"></path>
+            </svg>
+            <span class="copy-text">Copy</span>
+        </button>
+    </div>
+    <div class="code-block-content">
+        <pre
+            class={showLineNumbers
+                ? "with-line-numbers"
+                : ""}><code class={`language-${language}`} set:html={highlightedCode} /></pre>
+    </div>
+</div>
+
+<style>
+    .code-block-container {
+        background: #1e1e1e;
+        border: 1px solid #3e3e42;
+        border-radius: 8px;
+        margin: 1.5rem 0;
+        overflow: hidden;
+        font-family: "Fira Code", "Consolas", "Monaco", monospace;
+    }
+
+    .code-block-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.75rem 1rem;
+        background: #252526;
+        border-bottom: 1px solid #3e3e42;
+    }
+
+    .code-block-language {
+        font-size: 0.75rem;
+        color: #858585;
+        text-transform: uppercase;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+    }
+
+    .copy-button {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.4rem 0.8rem;
+        background: transparent;
+        border: 1px solid #3e3e42;
+        border-radius: 4px;
+        color: #cccccc;
+        font-size: 0.8rem;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-family: inherit;
+    }
+
+    .copy-button:hover {
+        background: #2d2d30;
+        border-color: #569cd6;
+        color: #569cd6;
+    }
+
+    .copy-button:active {
+        transform: scale(0.95);
+    }
+
+    .copy-button.copied {
+        background: #0e6a0e;
+        border-color: #4ec9b0;
+        color: #4ec9b0;
+    }
+
+    .copy-icon {
+        width: 14px;
+        height: 14px;
+    }
+
+    .code-block-content {
+        overflow-x: auto;
+        padding: 1.5rem;
+        background: #1e1e1e;
+    }
+
+    .code-block-content pre {
+        margin: 0;
+        font-size: 0.9rem;
+        line-height: 1.6;
+        color: #d4d4d4;
+    }
+
+    .code-block-content code {
+        font-family: inherit;
+        display: block;
+    }
+
+    /* VS Code Dark Theme Syntax Highlighting */
+    .code-block-content :global(.keyword) {
+        color: #569cd6;
+    }
+
+    .code-block-content :global(.string) {
+        color: #ce9178;
+    }
+
+    .code-block-content :global(.comment) {
+        color: #6a9955;
+        font-style: italic;
+    }
+
+    .code-block-content :global(.function) {
+        color: #dcdcaa;
+    }
+
+    .code-block-content :global(.number) {
+        color: #b5cea8;
+    }
+
+    .code-block-content :global(.type) {
+        color: #4ec9b0;
+    }
+
+    .code-block-content :global(.operator) {
+        color: #d4d4d4;
+    }
+
+    .code-block-content :global(.punctuation) {
+        color: #d4d4d4;
+    }
+
+    /* Scrollbar styling */
+    .code-block-content::-webkit-scrollbar {
+        height: 8px;
+    }
+
+    .code-block-content::-webkit-scrollbar-track {
+        background: #1e1e1e;
+    }
+
+    .code-block-content::-webkit-scrollbar-thumb {
+        background: #424242;
+        border-radius: 4px;
+    }
+
+    .code-block-content::-webkit-scrollbar-thumb:hover {
+        background: #4e4e4e;
+    }
+
+    @media (max-width: 768px) {
+        .code-block-content {
+            padding: 1rem;
+        }
+
+        .code-block-content pre {
+            font-size: 0.85rem;
+        }
+    }
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const copyButtons = document.querySelectorAll(".copy-button");
+
+        copyButtons.forEach((button) => {
+            button.addEventListener("click", async () => {
+                const code = button.getAttribute("data-code");
+                const copyText = button.querySelector(".copy-text");
+
+                if (!code || !copyText) return;
+
+                try {
+                    await navigator.clipboard.writeText(code);
+
+                    // Visual feedback
+                    button.classList.add("copied");
+                    copyText.textContent = "Copied!";
+
+                    setTimeout(() => {
+                        button.classList.remove("copied");
+                        copyText.textContent = "Copy";
+                    }, 2000);
+                } catch (err) {
+                    console.error("Failed to copy:", err);
+                    copyText.textContent = "Failed";
+                    setTimeout(() => {
+                        copyText.textContent = "Copy";
+                    }, 2000);
+                }
+            });
+        });
+    });
+</script>
