@@ -3,7 +3,7 @@ import BaseHead from "../../../components/BaseHead.astro";
 import ClubHeader from "../../../components/ClubHeader.astro";
 import CodeBlock from "../../../components/CodeBlock.astro";
 import Math from "../../../components/Math.astro";
-import { SITE_TITLE } from "../../../consts";
+import { SITE_TITLE, base } from "../../../consts";
 import "../../../styles/club-classes.css";
 
 const bstCode = `struct Node {
@@ -115,7 +115,7 @@ public:
 				/>
 				<p>An example of a max heap is shown below:</p>
 				<div class="club-image">
-					<img src="/media/heap.png" alt="Max Heap" />
+					<img src={`${base}/media/heap.png`} alt="Max Heap" />
 				</div>
 			</div>
 
@@ -151,7 +151,7 @@ public:
 				This property is very useful for searching, inserting, and
 				deleting nodes in the tree. An example of a BST is shown below:
 				<div class="club-image">
-					<img src="/media/bst_subtree.png" alt="BST" />
+					<img src={`${base}/media/bst_subtree.png`} alt="BST" />
 				</div>
 			</div>
 
@@ -178,7 +178,10 @@ public:
 				<h2>Insertion animation</h2>
 				<div class="club-image">
 					<video autoplay loop muted playsinline controls>
-						<source src="/media/bst_insert.mp4" type="video/mp4" />
+						<source
+							src={`${base}/media/bst_insert.mp4`}
+							type="video/mp4"
+						/>
 						Your browser does not support the video tag.
 					</video>
 				</div>
@@ -186,7 +189,10 @@ public:
 				<h2>Search animation</h2>
 				<div class="club-image">
 					<video autoplay loop muted playsinline controls>
-						<source src="/media/bst_search.mp4" type="video/mp4" />
+						<source
+							src={`${base}/media/bst_search.mp4`}
+							type="video/mp4"
+						/>
 						Your browser does not support the video tag.
 					</video>
 				</div>
@@ -194,7 +200,10 @@ public:
 				<h2>Deletion animation</h2>
 				<div class="club-image">
 					<video autoplay loop muted playsinline controls>
-						<source src="/media/bst_delete.mp4" type="video/mp4" />
+						<source
+							src={`${base}/media/bst_delete.mp4`}
+							type="video/mp4"
+						/>
 						Your browser does not support the video tag.
 					</video>
 				</div>
@@ -211,7 +220,7 @@ public:
 				<div class="club-image">
 					<video autoplay loop muted playsinline controls>
 						<source
-							src="/media/bst_degenerated.mp4"
+							src={`${base}/media/bst_degenerated.mp4`}
 							type="video/mp4"
 						/>
 						Your browser does not support the video tag.
@@ -231,7 +240,10 @@ public:
 				these structures are implemented over a red-black tree, which is a
 				type of balanced BST. Here is a figure of a Red-Black Tree:
 				<div class="club-image">
-					<img src="/media/red_black_tree.png" alt="Red-Black Tree" />
+					<img
+						src={`${base}/media/red_black_tree.png`}
+						alt="Red-Black Tree"
+					/>
 				</div>
 
 				This implementation also guarantees that the elements will
