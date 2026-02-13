@@ -1,7 +1,7 @@
 ---
 import BaseHead from "../../components/BaseHead.astro";
 import ClubHeader from "../../components/ClubHeader.astro";
-import { SITE_TITLE } from "../../consts";
+import { SITE_TITLE, base } from "../../consts";
 import "../../styles/club-classes.css";
 ---
 
@@ -31,7 +31,7 @@ import "../../styles/club-classes.css";
             </div>
 
             <div class="club-menu-grid">
-                <a href="/club-classes/bst" class="club-menu-option">
+                <a href={`${base}/club-classes/bst`} class="club-menu-option">
                     <div class="club-menu-icon">🌳</div>
                     <div class="club-menu-content">
                         <h2>Binary Search Tree (BST)</h2>
@@ -44,7 +44,10 @@ import "../../styles/club-classes.css";
                     <div class="club-menu-arrow">→</div>
                 </a>
 
-                <a href="/club-classes/kadane" class="club-menu-option">
+                <a
+                    href={`${base}/club-classes/kadane`}
+                    class="club-menu-option"
+                >
                     <div class="club-menu-icon">📊</div>
                     <div class="club-menu-content">
                         <h2>Kadane's Algorithm</h2>
