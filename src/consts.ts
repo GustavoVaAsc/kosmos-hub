@@ -3,3 +3,4 @@
 
 export const SITE_TITLE = 'Kosmos Hub';
 export const SITE_DESCRIPTION = 'Welcome to my personal website!';
+export const base = '/kosmos-hub';

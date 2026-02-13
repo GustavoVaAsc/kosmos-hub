@@ -1,7 +1,7 @@
 ---
 import BaseHead from "../components/BaseHead.astro";
 import MenuOption from "../components/MenuOption.astro";
-import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
+import { SITE_TITLE, SITE_DESCRIPTION, base } from "../consts";
 import "../styles/main-menu.css";
 ---
 
@@ -20,7 +20,7 @@ import "../styles/main-menu.css";
 		<div class="main-menu-container">
 			<div class="logo-container">
 				<div class="logo">
-					<img src="/logo.png" alt="Logo" />
+					<img src={`${base}/logo.png`} alt="Logo" />
 				</div>
 				<h1 class="main-title">Gustavo Valenzuela</h1>
 				<p class="main-subtitle">Welcome to my hub</p>
@@ -30,14 +30,14 @@ import "../styles/main-menu.css";
 				<MenuOption
 					title="My classes for CPCFI"
 					description="Explore competitive programming classes, algorithms, and data structures"
-					href="/club-classes"
+					href={`${base}/club-classes`}
 					icon="🏆"
 					colorClass="red"
 				/>
 				<MenuOption
 					title="About me"
 					description="Learn more about my skills, projects, and experience"
-					href="/about-me"
+					href={`${base}/about-me`}
 					icon="👨‍💻"
 					colorClass="purple"
 				/>
