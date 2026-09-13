@@ -15,6 +15,18 @@ import "../styles/main-menu.css";
 			href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
 			rel="stylesheet"
 		/>
+		<script
+			is:inline
+			type="application/ld+json"
+			set:html={JSON.stringify({
+				'@context': 'https://schema.org',
+				'@type': 'WebSite',
+				name: 'Kosmos Hub',
+				url: 'https://gustavovaasc.github.io/kosmos-hub',
+				description: 'Welcome to my personal website!',
+				inLanguage: 'es',
+			})}
+		/>
 	</head>
 	<body>
 		<div class="main-menu-container">
@@ -40,6 +52,13 @@ import "../styles/main-menu.css";
 					href={`${base}/about-me`}
 					icon="👨‍💻"
 					colorClass="purple"
+				/>
+				<MenuOption
+					title="Mi blog"
+					description="Artículos sobre programación, tecnología y proyectos personales"
+					href={`${base}/blog`}
+					icon="✍️"
+					colorClass="blue"
 				/>
 			</div>
 		</div>
