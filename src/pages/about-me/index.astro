@@ -1,6 +1,6 @@
 ---
 import BaseHead from "../../components/BaseHead.astro";
-import { SITE_DESCRIPTION, SITE_TITLE } from "../../consts";
+import { SITE_DESCRIPTION, SITE_TITLE, base } from "../../consts";
 import "../../styles/portfolio.css";
 ---
 
@@ -13,6 +13,28 @@ import "../../styles/portfolio.css";
         <link
             href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap"
             rel="stylesheet"
+        />
+        <script
+            is:inline
+            type="application/ld+json"
+            set:html={JSON.stringify({
+                '@context': 'https://schema.org',
+                '@type': 'Person',
+                name: 'Gustavo Valenzuela',
+                url: 'https://gustavovaasc.github.io/kosmos-hub/about-me/',
+                description:
+                    'Competitive programmer and software engineer. Crafting elegant solutions to complex problems.',
+                sameAs: [
+                    'https://github.com/gustavovaasc',
+                ],
+                knowsAbout: [
+                    'Competitive Programming',
+                    'Software Engineering',
+                    'Algorithms',
+                    'Data Structures',
+                ],
+                inLanguage: ['es', 'en'],
+            })}
         />
     </head>
     <body>
@@ -30,7 +52,7 @@ import "../../styles/portfolio.css";
         <!-- Navigation -->
         <nav class="main-nav">
             <div class="nav-container">
-                <a href="/" class="logo">&lt;/&gt;</a>
+                <a href={`${base}/`} class="logo">&lt;/&gt;</a>
                 <ul class="nav-links">
                     <li><a href="#about" data-i18n="nav.about">About</a></li>
                     <li><a href="#skills" data-i18n="nav.skills">Skills</a></li>
