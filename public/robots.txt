@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://gustavovaasc.github.io/kosmos-hub/sitemap-index.xml
