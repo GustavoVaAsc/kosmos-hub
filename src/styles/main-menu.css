@@ -17,14 +17,14 @@
 body {
     font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
         sans-serif;
-    /* Match the about-me page palette: dark navy bg + indigo/purple accents. */
+    /* Deeper violet/purple base + violet glow at top (terminal aesthetic). */
     background:
         radial-gradient(
             ellipse at top,
-            rgba(99, 102, 241, 0.08) 0%,
+            rgba(168, 85, 247, 0.18) 0%,
             transparent 60%
         ),
-        linear-gradient(135deg, #0a0e27 0%, #151932 50%, #1e2338 100%);
+        linear-gradient(135deg, #1e1b4b 0%, #2e1065 50%, #1e1b4b 100%);
     background-attachment: fixed;
     min-height: 100vh;
     color: #e4e6eb;

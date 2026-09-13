@@ -1,6 +1,7 @@
 ---
 import BaseHead from "../../components/BaseHead.astro";
 import Statusline from "../../components/Statusline.astro";
+import TechIcon from "../../components/TechIcon.astro";
 import { SITE_DESCRIPTION, SITE_TITLE, base } from "../../consts";
 import "../../styles/portfolio.css";
 ---
@@ -41,83 +42,70 @@ import "../../styles/portfolio.css";
     <body>
         <a class="skip-to-content" href="#main-content">Saltar al contenido</a>
 
-        <!-- Language Toggle -->
-        <button
-            id="lang-toggle"
-            class="lang-toggle"
-            aria-label="Toggle Language"
-        >
-            <span class="lang-option" data-lang="en">EN</span>
-            <span class="lang-divider">/</span>
-            <span class="lang-option" data-lang="es">ES</span>
-        </button>
+        <Statusline
+            path="about-me"
+            column="Ln 1, Col 1"
+            encoding="utf-8 unix"
+        />
 
-        <!-- Navigation -->
-        <nav class="main-nav">
-            <div class="nav-container">
-                <a href={`${base}/`} class="logo">&lt;/&gt;</a>
-                <ul class="nav-links">
-                    <li><a href="#about" data-i18n="nav.about">About</a></li>
-                    <li><a href="#skills" data-i18n="nav.skills">Skills</a></li>
-                    <li>
-                        <a href="#projects" data-i18n="nav.projects">Projects</a
-                        >
-                    </li>
-                    <li>
-                        <a href="#contact" data-i18n="nav.contact">Contact</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
+        <main id="main-content" tabindex="-1" class="about-me">
+            <a href={`${base}/`} class="terminal-cmd back-link">
+                <span class="terminal-cmd-prefix" aria-hidden="true">:</span><span
+                    class="terminal-cmd-name">back</span
+                >
+                <span class="terminal-cmd-desc">Volver al menú principal</span>
+            </a>
 
-        <main id="main-content" tabindex="-1">
-        <!-- Hero Section -->
-        <section class="hero">
-            <div class="hero-content">
-                <div class="hero-text">
-                    <p class="greeting" data-i18n="hero.greeting">Hi, I'm</p>
-                    <h1 class="name" data-i18n="hero.name">
-                        Gustavo Valenzuela
-                    </h1>
-                    <h2 class="title" data-i18n="hero.title">
-                        Competitive Programmer & Software Engineer
+            <!-- Hero: bio + signature Neovim code window -->
+            <section
+                class="terminal-window about-hero"
+                aria-label="Sobre mí"
+            >
+                <div class="hero-banner">
+                    <p class="hero-greeting">Hi, I'm</p>
+                    <h1 class="hero-name">Gustavo Valenzuela</h1>
+                    <h2 class="hero-title">
+                        Competitive Programmer &amp; Software Engineer
                     </h2>
-                    <p class="description" data-i18n="hero.description">
+                    <p class="hero-description">
                         Crafting elegant solutions to complex problems.
                         Passionate about clean code, innovative technologies,
                         and building impactful digital experiences.
                     </p>
-                    <div class="cta-buttons">
-                        <a
-                            href="#projects"
-                            class="btn btn-primary"
-                            data-i18n="hero.cta">View My Work</a
-                        >
-                        <a
-                            href="#contact"
-                            class="btn btn-secondary"
-                            data-i18n="hero.contact">Get In Touch</a
-                        >
-                    </div>
+                    <nav
+                        class="hero-commands"
+                        aria-label="Acciones rápidas"
+                    >
+                        <a href="#projects" class="terminal-cmd">
+                            <span class="terminal-cmd-prefix" aria-hidden="true"
+                                >:</span
+                            ><span class="terminal-cmd-name">projects</span>
+                            <span class="terminal-cmd-desc">Ver mis proyectos</span>
+                        </a>
+                        <a href="#contact" class="terminal-cmd">
+                            <span class="terminal-cmd-prefix" aria-hidden="true"
+                                >:</span
+                            ><span class="terminal-cmd-name">contact</span>
+                            <span class="terminal-cmd-desc">Hablemos</span>
+                        </a>
+                    </nav>
                 </div>
-                <div class="hero-visual">
-                    <div class="code-window">
-                        <div class="window-header">
-                            <div class="window-controls">
-                                <span class="gnome-btn gnome-close"></span>
-                                <span class="gnome-btn gnome-minimize"></span>
-                                <span class="gnome-btn gnome-maximize"></span>
-                            </div>
-                            <span class="window-title"
-                                >nvim ~/Developer.cpp</span
-                            >
-                            <div class="window-menu">
-                                <span>⋮</span>
-                            </div>
+
+                <div class="code-window" aria-label="Neovim: Developer.cpp">
+                    <div class="window-header">
+                        <div class="window-controls">
+                            <span class="gnome-btn gnome-close"></span>
+                            <span class="gnome-btn gnome-minimize"></span>
+                            <span class="gnome-btn gnome-maximize"></span>
                         </div>
-                        <div class="code-content">
-                            <Statusline path="Developer.cpp" />
-                            <pre><code><span class="line-number"> 1</span> <span class="code-keyword">#include</span> <span class="code-string">&lt;iostream&gt;</span>
+                        <span class="window-title">nvim ~/Developer.cpp</span>
+                        <div class="window-menu">
+                            <span>⋮</span>
+                        </div>
+                    </div>
+                    <div class="code-content">
+                        <Statusline path="Developer.cpp" />
+                        <pre><code><span class="line-number"> 1</span> <span class="code-keyword">#include</span> <span class="code-string">&lt;iostream&gt;</span>
 <span class="line-number"> 2</span> <span class="code-keyword">#include</span> <span class="code-string">&lt;vector&gt;</span>
 <span class="line-number"> 3</span> <span class="code-keyword">#include</span> <span class="code-string">&lt;string&gt;</span>
 <span class="line-number"> 4</span>
@@ -131,675 +119,437 @@ import "../../styles/portfolio.css";
 <span class="line-number">12</span>         <span class="code-variable">skills</span> = {'{'}<span class="code-string">"C++"</span>, <span class="code-string">"Python"</span>, <span class="code-string">"Algorithms"</span>{'}'};
 <span class="line-number">13</span>     {'}'}
 <span class="line-number">14</span> {'}'};</code></pre>
-                            <div class="nvim-cmdline">
-                                <span class="nvim-cmdline-text" id="cmdline-text"></span><span
-                                    class="nvim-cursor">█</span
-                                >
-                                <input
-                                    type="text"
-                                    id="cmdline-input"
-                                    class="nvim-cmdline-input"
-                                    autocomplete="off"
-                                    spellcheck="false"
-                                    autocapitalize="off"
-                                    autocorrect="off"
-                                    aria-label="Línea de comandos de Neovim"
-                                />
-                            </div>
+                        <div class="nvim-cmdline">
+                            <span class="nvim-cmdline-text" id="cmdline-text"></span><span
+                                class="nvim-cursor">█</span
+                            >
+                            <input
+                                type="text"
+                                id="cmdline-input"
+                                class="nvim-cmdline-input"
+                                autocomplete="off"
+                                spellcheck="false"
+                                autocapitalize="off"
+                                autocorrect="off"
+                                aria-label="Línea de comandos de Neovim"
+                            />
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- About Section -->
-        <section id="about" class="about">
-            <div class="container">
-                <h2 class="section-title" data-i18n="about.title">About Me</h2>
-                <p class="about-text" data-i18n="about.text">
+            <hr class="terminal-divider" />
+
+            <!-- About -->
+            <section
+                id="about"
+                class="terminal-window section-panel"
+                aria-label="Sobre mí"
+            >
+                <h2 class="section-heading">
+                    <span class="terminal-cmd-prefix" aria-hidden="true">:</span
+                    >about
+                </h2>
+                <p class="section-text">
                     I'm a passionate software engineer with expertise in
                     building scalable web applications and solving complex
                     technical challenges. With a strong foundation in both
                     frontend and backend technologies, I thrive on creating
                     seamless user experiences and robust system architectures.
                 </p>
-            </div>
-        </section>
+            </section>
 
-        <!-- Skills Section -->
-        <section id="skills" class="skills">
-            <div class="container">
-                <h2 class="section-title" data-i18n="skills.title">
-                    Technical Skills
+            <hr class="terminal-divider" />
+
+            <!-- Skills -->
+            <section
+                id="skills"
+                class="terminal-window section-panel"
+                aria-label="Habilidades técnicas"
+            >
+                <h2 class="section-heading">
+                    <span class="terminal-cmd-prefix" aria-hidden="true">:</span
+                    >tech
                 </h2>
-                <div class="skills-grid">
-                    <div class="skill-category">
-                        <h3>
-                            <span class="skill-icon">💻</span>
-                            <span data-i18n="skills.programming"
-                                >Programming languages</span
-                            >
-                        </h3>
-                        <div class="skill-tags">
-                            <span class="skill-tag">
-                                <img
-                                    src="https://img.shields.io/badge/C-00599C?style=flat&logo=c&logoColor=white"
-                                    alt="C"
-                                    class="skill-badge"
-                                />
-                            </span>
-                            <span class="skill-tag">
-                                <img
-                                    src="https://img.shields.io/badge/C++-00599C?style=flat&logo=cplusplus&logoColor=white"
-                                    alt="C++"
-                                    class="skill-badge"
-                                />
-                            </span>
-                            <span class="skill-tag">
-                                <img
-                                    src="https://img.shields.io/badge/Python-3776AB?style=flat&logo=python&logoColor=white"
-                                    alt="Python"
-                                    class="skill-badge"
-                                />
-                            </span>
-                            <span class="skill-tag">
-                                <img
-                                    src="https://img.shields.io/badge/Java-ED8B00?style=flat&logo=openjdk&logoColor=white"
-                                    alt="Java"
-                                    class="skill-badge"
-                                />
-                            </span>
-                            <span class="skill-tag">
-                                <img
-                                    src="https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white"
-                                    alt="TypeScript"
-                                    class="skill-badge"
-                                />
-                            </span>
-                            <span class="skill-tag">
-                                <img
-                                    src="https://img.shields.io/badge/Kotlin-7F52FF?style=flat&logo=kotlin&logoColor=white"
-                                    alt="Kotlin"
-                                    class="skill-badge"
-                                />
-                            </span>
-                        </div>
-                    </div>
-                    <div class="skill-category">
-                        <h3>
-                            <span class="skill-icon">📱</span>
-                            <span data-i18n="skills.mobile">Mobile</span>
-                        </h3>
-                        <div class="skill-tags">
-                            <span class="skill-tag">
-                                <img
-                                    src="https://img.shields.io/badge/Android_Studio-3DDC84?style=flat&logo=androidstudio&logoColor=white"
-                                    alt="Android Studio"
-                                    class="skill-badge"
-                                />
-                            </span>
-                            <span class="skill-tag">
-                                <img
-                                    src="https://img.shields.io/badge/Kotlin-7F52FF?style=flat&logo=kotlin&logoColor=white"
-                                    alt="Kotlin"
-                                    class="skill-badge"
-                                />
-                            </span>
-                            <span class="skill-tag">
-                                <img
-                                    src="https://img.shields.io/badge/Swift-FA7343?style=flat&logo=swift&logoColor=white"
-                                    alt="Swift"
-                                    class="skill-badge"
-                                />
-                            </span>
-                            <span class="skill-tag">
-                                <img
-                                    src="https://img.shields.io/badge/SwiftUI-0052CC?style=flat&logo=swift&logoColor=white"
-                                    alt="SwiftUI"
-                                    class="skill-badge"
-                                />
-                            </span>
-                        </div>
-                    </div>
-                    <div class="skill-category">
-                        <h3>
-                            <span class="skill-icon">⚙️</span>
-                            <span data-i18n="skills.backend">Backend</span>
-                        </h3>
-                        <div class="skill-tags">
-                            <span class="skill-tag">
-                                <img
-                                    src="https://img.shields.io/badge/Next.js-000000?style=flat&logo=nextdotjs&logoColor=white"
-                                    alt="Next.js"
-                                    class="skill-badge"
-                                />
-                            </span>
-                            <span class="skill-tag">
-                                <img
-                                    src="https://img.shields.io/badge/Python-3776AB?style=flat&logo=python&logoColor=white"
-                                    alt="Python"
-                                    class="skill-badge"
-                                />
-                            </span>
-                            <span class="skill-tag">
-                                <img
-                                    src="https://img.shields.io/badge/PostgreSQL-4169E1?style=flat&logo=postgresql&logoColor=white"
-                                    alt="PostgreSQL"
-                                    class="skill-badge"
-                                />
-                            </span>
-                            <span class="skill-tag">
-                                <img
-                                    src="https://img.shields.io/badge/SQL_Server-CC2927?style=flat&logo=microsoftsqlserver&logoColor=white"
-                                    alt="Microsoft SQL Server"
-                                    class="skill-badge"
-                                />
-                            </span>
-                            <span class="skill-tag">
-                                <img
-                                    src="https://img.shields.io/badge/Docker-2496ED?style=flat&logo=docker&logoColor=white"
-                                    alt="Docker"
-                                    class="skill-badge"
-                                />
-                            </span>
-                        </div>
-                    </div>
-                    <div class="skill-category">
-                        <h3>
-                            <span class="skill-icon">🛠️</span>
-                            <span data-i18n="skills.tools">Tools</span>
-                        </h3>
-                        <div class="skill-tags">
-                            <span class="skill-tag">
-                                <img
-                                    src="https://img.shields.io/badge/Git-F05032?style=flat&logo=git&logoColor=white"
-                                    alt="Git"
-                                    class="skill-badge"
-                                />
-                            </span>
-                            <span class="skill-tag">
-                                <img
-                                    src="https://img.shields.io/badge/Docker-2496ED?style=flat&logo=docker&logoColor=white"
-                                    alt="Docker"
-                                    class="skill-badge"
-                                />
-                            </span>
-                            <span class="skill-tag">
-                                <img
-                                    src="https://img.shields.io/badge/Linux-FCC624?style=flat&logo=linux&logoColor=black"
-                                    alt="Linux"
-                                    class="skill-badge"
-                                />
-                            </span>
-                            <span class="skill-tag">
-                                <img
-                                    src="https://img.shields.io/badge/LaTeX-008080?style=flat&logo=latex&logoColor=white"
-                                    alt="LaTeX"
-                                    class="skill-badge"
-                                />
-                            </span>
-                            <span class="skill-tag">
-                                <img
-                                    src="https://img.shields.io/badge/Pandas-150458?style=flat&logo=pandas&logoColor=white"
-                                    alt="Pandas"
-                                    class="skill-badge"
-                                />
-                            </span>
-                            <span class="skill-tag">
-                                <img
-                                    src="https://img.shields.io/badge/Matplotlib-11557C?style=flat&logo=python&logoColor=white"
-                                    alt="Matplotlib"
-                                    class="skill-badge"
-                                />
-                            </span>
-                            <span class="skill-tag">
-                                <img
-                                    src="https://img.shields.io/badge/Neovim-57A143?style=flat&logo=neovim&logoColor=white"
-                                    alt="Neovim"
-                                    class="skill-badge"
-                                />
-                            </span>
-                        </div>
-                    </div>
-                    <div class="skill-category">
-                        <h3>
-                            <span class="skill-icon">🎮</span>
-                            <span data-i18n="skills.game">Game Development</span
-                            >
-                        </h3>
-                        <div class="skill-tags">
-                            <span class="skill-tag">
-                                <img
-                                    src="https://img.shields.io/badge/OpenGL-5586A4?style=flat&logo=opengl&logoColor=white"
-                                    alt="OpenGL"
-                                    class="skill-badge"
-                                />
-                            </span>
-                            <span class="skill-tag">
-                                <img
-                                    src="https://img.shields.io/badge/Blender-F5792A?style=flat&logo=blender&logoColor=white"
-                                    alt="Blender"
-                                    class="skill-badge"
-                                />
-                            </span>
-                            <span class="skill-tag">
-                                <img
-                                    src="https://img.shields.io/badge/SFML-8CC445?style=flat&logo=sfml&logoColor=white"
-                                    alt="SFML"
-                                    class="skill-badge"
-                                />
-                            </span>
-                            <span class="skill-tag">
-                                <img
-                                    src="https://img.shields.io/badge/Pygame-3776AB?style=flat&logo=python&logoColor=white"
-                                    alt="Pygame"
-                                    class="skill-badge"
-                                />
-                            </span>
-                            <span class="skill-tag">
-                                <img
-                                    src="https://img.shields.io/badge/GLSL-5586A4?style=flat&logo=opengl&logoColor=white"
-                                    alt="GLSL"
-                                    class="skill-badge"
-                                />
-                            </span>
-                            <span class="skill-tag">
-                                <img
-                                    src="https://img.shields.io/badge/Java_AWT-ED8B00?style=flat&logo=openjdk&logoColor=white"
-                                    alt="Java AWT"
-                                    class="skill-badge"
-                                />
-                            </span>
-                            <span class="skill-tag">
-                                <img
-                                    src="https://img.shields.io/badge/C++-00599C?style=flat&logo=cplusplus&logoColor=white"
-                                    alt="C++"
-                                    class="skill-badge"
-                                />
-                            </span>
-                        </div>
-                    </div>
-                    <div class="skill-category">
-                        <h3>
-                            <span class="skill-icon">🤖</span>
-                            <span data-i18n="skills.ai"
-                                >AI Tools and Skills</span
-                            >
-                        </h3>
-                        <div class="skill-tags">
-                            <span class="skill-tag">
-                                <img
-                                    src="https://img.shields.io/badge/GitHub_Copilot-000000?style=flat&logo=githubcopilot&logoColor=white"
-                                    alt="Github Copilot"
-                                    class="skill-badge"
-                                />
-                            </span>
-                            <span class="skill-tag">
-                                <img
-                                    src="https://img.shields.io/badge/Google_AI-4285F4?style=flat&logo=google&logoColor=white"
-                                    alt="Google Antigravity"
-                                    class="skill-badge"
-                                />
-                            </span>
-                            <span class="skill-tag">
-                                <img
-                                    src="https://img.shields.io/badge/AI_Coding-00ADD8?style=flat&logo=visualstudiocode&logoColor=white"
-                                    alt="Opencode"
-                                    class="skill-badge"
-                                />
-                            </span>
-                            <span class="skill-tag">
-                                <img
-                                    src="https://img.shields.io/badge/Llama.cpp-FF6B6B?style=flat&logo=meta&logoColor=white"
-                                    alt="Llama.cpp"
-                                    class="skill-badge"
-                                />
-                            </span>
-                            <span class="skill-tag">
-                                <img
-                                    src="https://img.shields.io/badge/RAG-8B5CF6?style=flat&logo=databricks&logoColor=white"
-                                    alt="RAG"
-                                    class="skill-badge"
-                                />
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                <p class="badge-reference">
-                    Technology badges powered by <a
-                        href="https://shields.io"
-                        target="_blank"
-                        rel="noopener noreferrer">Shields.io</a
-                    >
-                </p>
-            </div>
-        </section>
 
-        <!-- Projects Section -->
-        <section id="projects" class="projects">
-            <div class="container">
-                <h2 class="section-title" data-i18n="projects.title">
-                    My projects
+                <div class="skill-group">
+                    <h3 class="skill-group-title">
+                        <span class="terminal-cmd-prefix" aria-hidden="true"
+                            >:</span
+                        >lang
+                    </h3>
+                    <ul class="skill-tags">
+                        <li class="skill-tag"><TechIcon name="c" />c</li>
+                        <li class="skill-tag"><TechIcon name="c++" />c++</li>
+                        <li class="skill-tag"><TechIcon name="python" />python</li>
+                        <li class="skill-tag"><TechIcon name="java" />java</li>
+                        <li class="skill-tag"><TechIcon name="typescript" />typescript</li>
+                        <li class="skill-tag"><TechIcon name="kotlin" />kotlin</li>
+                    </ul>
+                </div>
+
+                <div class="skill-group">
+                    <h3 class="skill-group-title">
+                        <span class="terminal-cmd-prefix" aria-hidden="true"
+                            >:</span
+                        >mobile
+                    </h3>
+                    <ul class="skill-tags">
+                        <li class="skill-tag"><TechIcon name="android-studio" />android-studio</li>
+                        <li class="skill-tag"><TechIcon name="kotlin" />kotlin</li>
+                        <li class="skill-tag"><TechIcon name="swift" />swift</li>
+                        <li class="skill-tag"><TechIcon name="swiftui" />swiftui</li>
+                    </ul>
+                </div>
+
+                <div class="skill-group">
+                    <h3 class="skill-group-title">
+                        <span class="terminal-cmd-prefix" aria-hidden="true"
+                            >:</span
+                        >backend
+                    </h3>
+                    <ul class="skill-tags">
+                        <li class="skill-tag"><TechIcon name="next.js" />next.js</li>
+                        <li class="skill-tag"><TechIcon name="python" />python</li>
+                        <li class="skill-tag"><TechIcon name="postgresql" />postgresql</li>
+                        <li class="skill-tag"><TechIcon name="sql-server" />sql-server</li>
+                        <li class="skill-tag"><TechIcon name="docker" />docker</li>
+                    </ul>
+                </div>
+
+                <div class="skill-group">
+                    <h3 class="skill-group-title">
+                        <span class="terminal-cmd-prefix" aria-hidden="true"
+                            >:</span
+                        >tools
+                    </h3>
+                    <ul class="skill-tags">
+                        <li class="skill-tag"><TechIcon name="git" />git</li>
+                        <li class="skill-tag"><TechIcon name="docker" />docker</li>
+                        <li class="skill-tag"><TechIcon name="linux" />linux</li>
+                        <li class="skill-tag"><TechIcon name="latex" />latex</li>
+                        <li class="skill-tag"><TechIcon name="pandas" />pandas</li>
+                        <li class="skill-tag"><TechIcon name="matplotlib" />matplotlib</li>
+                        <li class="skill-tag"><TechIcon name="neovim" />neovim</li>
+                    </ul>
+                </div>
+
+                <div class="skill-group">
+                    <h3 class="skill-group-title">
+                        <span class="terminal-cmd-prefix" aria-hidden="true"
+                            >:</span
+                        >gamedev
+                    </h3>
+                    <ul class="skill-tags">
+                        <li class="skill-tag"><TechIcon name="opengl" />opengl</li>
+                        <li class="skill-tag"><TechIcon name="blender" />blender</li>
+                        <li class="skill-tag"><TechIcon name="sfml" />sfml</li>
+                        <li class="skill-tag"><TechIcon name="pygame" />pygame</li>
+                        <li class="skill-tag"><TechIcon name="glsl" />glsl</li>
+                        <li class="skill-tag"><TechIcon name="java-awt" />java-awt</li>
+                        <li class="skill-tag"><TechIcon name="c++" />c++</li>
+                    </ul>
+                </div>
+
+                <div class="skill-group">
+                    <h3 class="skill-group-title">
+                        <span class="terminal-cmd-prefix" aria-hidden="true"
+                            >:</span
+                        >ai
+                    </h3>
+                    <ul class="skill-tags">
+                        <li class="skill-tag"><TechIcon name="github-copilot" />github-copilot</li>
+                        <li class="skill-tag"><TechIcon name="google-ai" />google-ai</li>
+                        <li class="skill-tag"><TechIcon name="opencode" />opencode</li>
+                        <li class="skill-tag"><TechIcon name="llama.cpp" />llama.cpp</li>
+                        <li class="skill-tag"><TechIcon name="rag" />rag</li>
+                    </ul>
+                </div>
+            </section>
+
+            <hr class="terminal-divider" />
+
+            <!-- Projects -->
+            <section
+                id="projects"
+                class="terminal-window section-panel"
+                aria-label="Proyectos"
+            >
+                <h2 class="section-heading">
+                    <span class="terminal-cmd-prefix" aria-hidden="true">:</span
+                    >projects
                 </h2>
-                <div class="projects-grid">
-                    <article class="project-card">
-                        <div class="project-image">
-                            <div class="project-placeholder">🚀</div>
-                        </div>
-                        <div class="project-content">
-                            <h3>Doodle Jump Clone (Bizarre Jump), 2023</h3>
-                            <p>
-                                2D arcade-like plataformed game created in Java
-                                using AWT and Swing. It features simple
-                                gameplay, smooth physics
-                            </p>
-                            <div class="project-tech">
-                                <span>Java</span>
-                                <span>AWT</span>
-                                <span>Swing</span>
-                            </div>
-                            <div class="project-links">
-                                <a
-                                    href="#"
-                                    class="project-link"
-                                    data-i18n="projects.viewCode">View Code</a
-                                >
-                                <a
-                                    href="#"
-                                    class="project-link"
-                                    data-i18n="projects.liveDemo">Live Demo</a
-                                >
-                            </div>
-                        </div>
-                    </article>
 
-                    <article class="project-card">
-                        <div class="project-image">
-                            <div class="project-placeholder">📱</div>
-                        </div>
-                        <div class="project-content">
-                            <h3>Task Management App</h3>
-                            <p>
-                                Collaborative task management tool with
-                                real-time updates, team collaboration features,
-                                and productivity analytics.
-                            </p>
-                            <div class="project-tech">
-                                <span>Vue.js</span>
-                                <span>Firebase</span>
-                                <span>TypeScript</span>
-                            </div>
-                            <div class="project-links">
-                                <a
-                                    href="#"
-                                    class="project-link"
-                                    data-i18n="projects.viewCode">View Code</a
-                                >
-                                <a
-                                    href="#"
-                                    class="project-link"
-                                    data-i18n="projects.liveDemo">Live Demo</a
-                                >
-                            </div>
-                        </div>
-                    </article>
-
-                    <article class="project-card">
-                        <div class="project-image">
-                            <div class="project-placeholder">🎨</div>
-                        </div>
-                        <div class="project-content">
-                            <h3>Design System Library</h3>
-                            <p>
-                                Comprehensive component library with
-                                accessibility-first approach, dark mode support,
-                                and extensive documentation.
-                            </p>
-                            <div class="project-tech">
-                                <span>React</span>
-                                <span>Storybook</span>
-                                <span>CSS-in-JS</span>
-                            </div>
-                            <div class="project-links">
-                                <a
-                                    href="#"
-                                    class="project-link"
-                                    data-i18n="projects.viewCode">View Code</a
-                                >
-                                <a
-                                    href="#"
-                                    class="project-link"
-                                    data-i18n="projects.liveDemo">Live Demo</a
-                                >
-                            </div>
-                        </div>
-                    </article>
-                </div>
-            </div>
-        </section>
-
-        <!-- Setup Section -->
-        <section id="setup" class="setup">
-            <div class="container">
-                <h2 class="section-title" data-i18n="setup.title">My Setup</h2>
-                <div class="setup-grid">
-                    <!-- OS -->
-                    <div class="setup-category">
-                        <h3>
-                            <span class="setup-icon">🐧</span>
-                            <span data-i18n="setup.os">Operating System</span>
-                        </h3>
-                        <ul class="setup-list">
-                            <li>
-                                <span class="setup-item-icon">💻</span>
-                                <span>Arch Linux (btw)</span>
-                            </li>
-                            <li>
-                                <span class="setup-item-icon">🪟</span>
-                                <span>Windows 11 (dual boot)</span>
-                            </li>
-                            <li>
-                                <span class="setup-item-icon">🎨</span>
-                                <span>GNOME Desktop Environment</span>
-                            </li>
-                        </ul>
+                <article class="terminal-cmd project-row">
+                    <div class="project-row-header">
+                        <span class="terminal-cmd-prefix" aria-hidden="true"
+                            >:</span
+                        ><span class="terminal-cmd-name">bizarre-jump</span>
+                        <span class="project-year">2023</span>
                     </div>
+                    <p class="project-row-desc">
+                        2D arcade-like plataformed game created in Java using
+                        AWT and Swing. It features simple gameplay, smooth
+                        physics.
+                    </p>
+                    <ul class="project-row-tech">
+                        <li class="skill-tag"><TechIcon name="java" />java</li>
+                        <li class="skill-tag"><TechIcon name="awt" />awt</li>
+                        <li class="skill-tag"><TechIcon name="swing" />swing</li>
+                    </ul>
+                </article>
 
-                    <!-- Code Editor -->
-                    <div class="setup-category">
-                        <h3>
-                            <span class="setup-icon">⌨️</span>
-                            <span data-i18n="setup.editor">Code Editor</span>
-                        </h3>
-                        <ul class="setup-list">
-                            <li>
-                                <span class="setup-item-icon">✏️</span>
-                                <span>Neovim (primary)</span>
-                            </li>
-                            <li>
-                                <span class="setup-item-icon">🆚</span>
-                                <span>VS Code (secondary)</span>
-                            </li>
-                            <li>
-                                <span class="setup-item-icon">🎨</span>
-                                <span>Tokyo Night theme</span>
-                            </li>
-                        </ul>
+                <article class="terminal-cmd project-row">
+                    <div class="project-row-header">
+                        <span class="terminal-cmd-prefix" aria-hidden="true"
+                            >:</span
+                        ><span class="terminal-cmd-name">task-management-app</span>
                     </div>
+                    <p class="project-row-desc">
+                        Collaborative task management tool with real-time
+                        updates, team collaboration features, and productivity
+                        analytics.
+                    </p>
+                    <ul class="project-row-tech">
+                        <li class="skill-tag"><TechIcon name="vue.js" />vue.js</li>
+                        <li class="skill-tag"><TechIcon name="firebase" />firebase</li>
+                        <li class="skill-tag"><TechIcon name="typescript" />typescript</li>
+                    </ul>
+                </article>
 
-                    <!-- Peripherals -->
-                    <div class="setup-category">
-                        <h3>
-                            <span class="setup-icon">🖱️</span>
-                            <span data-i18n="setup.peripherals"
-                                >Peripherals</span
-                            >
-                        </h3>
-                        <ul class="setup-list">
-                            <li>
-                                <span class="setup-item-icon">⌨️</span>
-                                <span>Mechanical Keyboard</span>
-                            </li>
-                            <li>
-                                <span class="setup-item-icon">🖱️</span>
-                                <span>Gaming Mouse</span>
-                            </li>
-                            <li>
-                                <span class="setup-item-icon">🎧</span>
-                                <span>Noise-Cancelling Headphones</span>
-                            </li>
-                        </ul>
+                <article class="terminal-cmd project-row">
+                    <div class="project-row-header">
+                        <span class="terminal-cmd-prefix" aria-hidden="true"
+                            >:</span
+                        ><span class="terminal-cmd-name">design-system-library</span>
                     </div>
+                    <p class="project-row-desc">
+                        Comprehensive component library with
+                        accessibility-first approach, dark mode support, and
+                        extensive documentation.
+                    </p>
+                    <ul class="project-row-tech">
+                        <li class="skill-tag"><TechIcon name="react" />react</li>
+                        <li class="skill-tag"><TechIcon name="storybook" />storybook</li>
+                        <li class="skill-tag"><TechIcon name="css-in-js" />css-in-js</li>
+                    </ul>
+                </article>
+            </section>
 
-                    <!-- Terminal -->
-                    <div class="setup-category">
-                        <h3>
-                            <span class="setup-icon">💻</span>
-                            <span data-i18n="setup.terminal">Terminal</span>
-                        </h3>
-                        <ul class="setup-list">
-                            <li>
-                                <span class="setup-item-icon">🐚</span>
-                                <span>Zsh with Oh My Zsh</span>
-                            </li>
-                            <li>
-                                <span class="setup-item-icon">📦</span>
-                                <span>tmux for multiplexing</span>
-                            </li>
-                            <li>
-                                <span class="setup-item-icon">🎨</span>
-                                <span>Starship prompt</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </section>
+            <hr class="terminal-divider" />
 
-        <!-- Hobbies Section -->
-        <section id="hobbies" class="hobbies">
-            <div class="container">
-                <h2 class="section-title" data-i18n="hobbies.title">
-                    Hobbies & Interests
+            <!-- Setup -->
+            <section
+                id="setup"
+                class="terminal-window section-panel"
+                aria-label="Mi configuración"
+            >
+                <h2 class="section-heading">
+                    <span class="terminal-cmd-prefix" aria-hidden="true">:</span
+                    >setup
                 </h2>
-                <div class="hobbies-grid">
-                    <div class="hobby-card">
-                        <div class="hobby-icon">🏆</div>
-                        <h3 data-i18n="hobbies.competitive">
-                            Competitive Programming
-                        </h3>
-                        <p data-i18n="hobbies.competitiveDesc">
-                            Solving algorithmic challenges on platforms like
-                            Codeforces, LeetCode, and participating in
-                            programming contests.
-                        </p>
-                    </div>
 
-                    <div class="hobby-card">
-                        <div class="hobby-icon">🎮</div>
-                        <h3 data-i18n="hobbies.gaming">Gaming</h3>
-                        <p data-i18n="hobbies.gamingDesc">
-                            Enjoying strategy games, RPGs, and indie titles.
-                            Also interested in game development and design.
-                        </p>
-                    </div>
-
-                    <div class="hobby-card">
-                        <div class="hobby-icon">📚</div>
-                        <h3 data-i18n="hobbies.reading">Reading</h3>
-                        <p data-i18n="hobbies.readingDesc">
-                            Reading about computer science, mathematics, science
-                            fiction, and technology trends.
-                        </p>
-                    </div>
-
-                    <div class="hobby-card">
-                        <div class="hobby-icon">🎵</div>
-                        <h3 data-i18n="hobbies.music">Music</h3>
-                        <p data-i18n="hobbies.musicDesc">
-                            Listening to various genres while coding, from lo-fi
-                            beats to classical music.
-                        </p>
-                    </div>
-
-                    <div class="hobby-card">
-                        <div class="hobby-icon">🔬</div>
-                        <h3 data-i18n="hobbies.learning">
-                            Continuous Learning
-                        </h3>
-                        <p data-i18n="hobbies.learningDesc">
-                            Exploring new technologies, frameworks, and staying
-                            updated with the latest in tech.
-                        </p>
-                    </div>
-
-                    <div class="hobby-card">
-                        <div class="hobby-icon">🤝</div>
-                        <h3 data-i18n="hobbies.opensource">Open Source</h3>
-                        <p data-i18n="hobbies.opensourceDesc">
-                            Contributing to open source projects and
-                            collaborating with the developer community.
-                        </p>
-                    </div>
+                <div class="setup-group">
+                    <h3 class="skill-group-title">
+                        <span class="terminal-cmd-prefix" aria-hidden="true"
+                            >:</span
+                        >os
+                    </h3>
+                    <ul class="setup-list">
+                        <li>Arch Linux (btw)</li>
+                        <li>Windows 11 (dual boot)</li>
+                        <li>GNOME Desktop Environment</li>
+                    </ul>
                 </div>
-            </div>
-        </section>
 
-        <!-- Contact Section -->
-        <section id="contact" class="contact">
-            <div class="container">
-                <h2 class="section-title" data-i18n="contact.title">
-                    Let's Connect
+                <div class="setup-group">
+                    <h3 class="skill-group-title">
+                        <span class="terminal-cmd-prefix" aria-hidden="true"
+                            >:</span
+                        >editor
+                    </h3>
+                    <ul class="setup-list">
+                        <li>Neovim (primary)</li>
+                        <li>VS Code (secondary)</li>
+                        <li>Tokyo Night theme</li>
+                    </ul>
+                </div>
+
+                <div class="setup-group">
+                    <h3 class="skill-group-title">
+                        <span class="terminal-cmd-prefix" aria-hidden="true"
+                            >:</span
+                        >peripherals
+                    </h3>
+                    <ul class="setup-list">
+                        <li>Mechanical Keyboard</li>
+                        <li>Gaming Mouse</li>
+                        <li>Noise-Cancelling Headphones</li>
+                    </ul>
+                </div>
+
+                <div class="setup-group">
+                    <h3 class="skill-group-title">
+                        <span class="terminal-cmd-prefix" aria-hidden="true"
+                            >:</span
+                        >terminal
+                    </h3>
+                    <ul class="setup-list">
+                        <li>Zsh with Oh My Zsh</li>
+                        <li>tmux for multiplexing</li>
+                        <li>Starship prompt</li>
+                    </ul>
+                </div>
+            </section>
+
+            <hr class="terminal-divider" />
+
+            <!-- Hobbies -->
+            <section
+                id="hobbies"
+                class="terminal-window section-panel"
+                aria-label="Pasatiempos"
+            >
+                <h2 class="section-heading">
+                    <span class="terminal-cmd-prefix" aria-hidden="true">:</span
+                    >hobbies
                 </h2>
-                <p class="contact-description" data-i18n="contact.description">
+
+                <article class="terminal-cmd hobby-row">
+                    <div class="project-row-header">
+                        <span class="terminal-cmd-prefix" aria-hidden="true"
+                            >:</span
+                        ><span class="terminal-cmd-name">competitive</span>
+                    </div>
+                    <p class="project-row-desc">
+                        Solving algorithmic challenges on platforms like
+                        Codeforces, LeetCode, and participating in programming
+                        contests.
+                    </p>
+                </article>
+
+                <article class="terminal-cmd hobby-row">
+                    <div class="project-row-header">
+                        <span class="terminal-cmd-prefix" aria-hidden="true"
+                            >:</span
+                        ><span class="terminal-cmd-name">gaming</span>
+                    </div>
+                    <p class="project-row-desc">
+                        Enjoying strategy games, RPGs, and indie titles. Also
+                        interested in game development and design.
+                    </p>
+                </article>
+
+                <article class="terminal-cmd hobby-row">
+                    <div class="project-row-header">
+                        <span class="terminal-cmd-prefix" aria-hidden="true"
+                            >:</span
+                        ><span class="terminal-cmd-name">reading</span>
+                    </div>
+                    <p class="project-row-desc">
+                        Reading about computer science, mathematics, science
+                        fiction, and technology trends.
+                    </p>
+                </article>
+
+                <article class="terminal-cmd hobby-row">
+                    <div class="project-row-header">
+                        <span class="terminal-cmd-prefix" aria-hidden="true"
+                            >:</span
+                        ><span class="terminal-cmd-name">music</span>
+                    </div>
+                    <p class="project-row-desc">
+                        Listening to various genres while coding, from lo-fi
+                        beats to classical music.
+                    </p>
+                </article>
+
+                <article class="terminal-cmd hobby-row">
+                    <div class="project-row-header">
+                        <span class="terminal-cmd-prefix" aria-hidden="true"
+                            >:</span
+                        ><span class="terminal-cmd-name">learning</span>
+                    </div>
+                    <p class="project-row-desc">
+                        Exploring new technologies, frameworks, and staying
+                        updated with the latest in tech.
+                    </p>
+                </article>
+
+                <article class="terminal-cmd hobby-row">
+                    <div class="project-row-header">
+                        <span class="terminal-cmd-prefix" aria-hidden="true"
+                            >:</span
+                        ><span class="terminal-cmd-name">opensource</span>
+                    </div>
+                    <p class="project-row-desc">
+                        Contributing to open source projects and collaborating
+                        with the developer community.
+                    </p>
+                </article>
+            </section>
+
+            <hr class="terminal-divider" />
+
+            <!-- Contact -->
+            <section
+                id="contact"
+                class="terminal-window section-panel"
+                aria-label="Contacto"
+            >
+                <h2 class="section-heading">
+                    <span class="terminal-cmd-prefix" aria-hidden="true">:</span
+                    >contact
+                </h2>
+                <p class="contact-description">
                     I'm always open to discussing new projects, creative ideas,
                     or opportunities to be part of your vision.
                 </p>
-                <div class="contact-links">
-                    <a
-                        href="mailto:your.email@example.com"
-                        class="contact-card"
-                    >
-                        <div class="contact-icon">📧</div>
-                        <h3 data-i18n="contact.email">Email</h3>
-                        <p>your.email@example.com</p>
-                    </a>
-                    <a
-                        href="https://github.com/yourusername"
-                        target="_blank"
-                        class="contact-card"
-                    >
-                        <div class="contact-icon">💻</div>
-                        <h3 data-i18n="contact.github">GitHub</h3>
-                        <p>@yourusername</p>
-                    </a>
-                    <a
-                        href="https://linkedin.com/in/yourusername"
-                        target="_blank"
-                        class="contact-card"
-                    >
-                        <div class="contact-icon">💼</div>
-                        <h3 data-i18n="contact.linkedin">LinkedIn</h3>
-                        <p>/in/yourusername</p>
-                    </a>
-                </div>
-            </div>
-        </section>
 
-        <!-- Footer -->
-        <footer class="footer">
-            <p>
-                &copy; 2026 Your Name. Built with <a
-                    href="https://astro.build"
-                    target="_blank">Astro</a
+                <a
+                    href="mailto:your.email@example.com"
+                    class="terminal-cmd contact-row"
                 >
-            </p>
-        </footer>
+                    <span class="terminal-cmd-prefix" aria-hidden="true">:</span
+                    ><span class="terminal-cmd-name">email</span>
+                    <span class="terminal-cmd-desc">your.email@example.com</span>
+                </a>
+
+                <a
+                    href="https://github.com/yourusername"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="terminal-cmd contact-row"
+                >
+                    <span class="terminal-cmd-prefix" aria-hidden="true">:</span
+                    ><span class="terminal-cmd-name">github</span>
+                    <span class="terminal-cmd-desc">@yourusername</span>
+                </a>
+
+                <a
+                    href="https://linkedin.com/in/yourusername"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="terminal-cmd contact-row"
+                >
+                    <span class="terminal-cmd-prefix" aria-hidden="true">:</span
+                    ><span class="terminal-cmd-name">linkedin</span>
+                    <span class="terminal-cmd-desc">/in/yourusername</span>
+                </a>
+            </section>
+
+            <hr class="terminal-divider" />
+
+            <a href={`${base}/`} class="terminal-cmd back-link back-link--bottom">
+                <span class="terminal-cmd-prefix" aria-hidden="true">:</span><span
+                    class="terminal-cmd-name">back</span
+                >
+                <span class="terminal-cmd-desc">Volver al menú principal</span>
+            </a>
         </main>
 
-	<script>
-		import '../../scripts/portfolio.js';
-		import '../../scripts/about-cmdline.js';
-	</script>
+        <script>
+            import "../../scripts/about-cmdline.js";
+        </script>
     </body>
 </html>
