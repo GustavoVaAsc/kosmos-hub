@@ -1,0 +1,98 @@
+---
+// Shared Neovim-style statusline. Used by the main menu (full top bar)
+// and the about-me hero code window. Visual identity (Tokyo Night
+// colors, Fira Code) lives here in a global stylesheet so both pages
+// render identically without duplicating rules in main-menu.css /
+// portfolio.css.
+//
+// The blinking block cursor and its @keyframes live here too — the
+// cursor is part of the Neovim terminal aesthetic, so co-locating it
+// with the statusline keeps a single source of truth for that look.
+
+interface Props {
+    path?: string;
+    column?: string;
+    encoding?: string;
+}
+
+const {
+    path = 'kosmos-hub',
+    column,
+    encoding,
+} = Astro.props;
+---
+
+<div class="nvim-statusline" role="status" aria-label="Neovim statusline">
+    <span class="nvim-mode">NORMAL</span>
+    <span class="nvim-file">~/{path}</span>
+    {column && <span class="nvim-column">{column}</span>}
+    {encoding && <span class="nvim-encoding">[{encoding}]</span>}
+</div>
+
+<style is:global>
+    .nvim-statusline {
+        background: #414868;
+        color: #c0caf5;
+        padding: 0.4rem 1rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem 0.85rem;
+        align-items: center;
+        font-family: 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Monaco,
+            Consolas, monospace;
+        font-size: clamp(0.72rem, 0.68rem + 0.2vw, 0.82rem);
+        border-bottom: 1px solid #24283b;
+        line-height: 1.4;
+    }
+
+    .nvim-mode {
+        background: #7aa2f7;
+        color: #1a1b26;
+        padding: 0.15rem 0.6rem;
+        border-radius: 3px;
+        font-weight: 700;
+        font-size: 0.92em;
+    }
+
+    .nvim-file {
+        color: #c0caf5;
+        white-space: nowrap;
+    }
+
+    .nvim-column {
+        color: #9ece6a;
+        white-space: nowrap;
+    }
+
+    .nvim-encoding {
+        color: #bb9af7;
+        white-space: nowrap;
+    }
+
+    .nvim-cursor {
+        color: #7aa2f7;
+        animation: nvim-blink 1s step-end infinite;
+        font-family: 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Monaco,
+            Consolas, monospace;
+    }
+
+    @keyframes nvim-blink {
+
+        0%,
+        50% {
+            opacity: 1;
+        }
+
+        51%,
+        100% {
+            opacity: 0;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .nvim-cursor {
+            animation: none;
+            opacity: 1;
+        }
+    }
+</style>

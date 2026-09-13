@@ -1,5 +1,6 @@
 ---
 import BaseHead from "../../components/BaseHead.astro";
+import Statusline from "../../components/Statusline.astro";
 import { SITE_DESCRIPTION, SITE_TITLE, base } from "../../consts";
 import "../../styles/portfolio.css";
 ---
@@ -38,6 +39,8 @@ import "../../styles/portfolio.css";
         />
     </head>
     <body>
+        <a class="skip-to-content" href="#main-content">Saltar al contenido</a>
+
         <!-- Language Toggle -->
         <button
             id="lang-toggle"
@@ -67,6 +70,7 @@ import "../../styles/portfolio.css";
             </div>
         </nav>
 
+        <main id="main-content" tabindex="-1">
         <!-- Hero Section -->
         <section class="hero">
             <div class="hero-content">
@@ -112,10 +116,7 @@ import "../../styles/portfolio.css";
                             </div>
                         </div>
                         <div class="code-content">
-                            <div class="nvim-statusline">
-                                <span class="nvim-mode">NORMAL</span>
-                                <span class="nvim-file">Developer.cpp</span>
-                            </div>
+                            <Statusline path="Developer.cpp" />
                             <pre><code><span class="line-number"> 1</span> <span class="code-keyword">#include</span> <span class="code-string">&lt;iostream&gt;</span>
 <span class="line-number"> 2</span> <span class="code-keyword">#include</span> <span class="code-string">&lt;vector&gt;</span>
 <span class="line-number"> 3</span> <span class="code-keyword">#include</span> <span class="code-string">&lt;string&gt;</span>
@@ -131,7 +132,19 @@ import "../../styles/portfolio.css";
 <span class="line-number">13</span>     {'}'}
 <span class="line-number">14</span> {'}'};</code></pre>
                             <div class="nvim-cmdline">
-                                <span class="nvim-cursor">█</span>
+                                <span class="nvim-cmdline-text" id="cmdline-text"></span><span
+                                    class="nvim-cursor">█</span
+                                >
+                                <input
+                                    type="text"
+                                    id="cmdline-input"
+                                    class="nvim-cmdline-input"
+                                    autocomplete="off"
+                                    spellcheck="false"
+                                    autocapitalize="off"
+                                    autocorrect="off"
+                                    aria-label="Línea de comandos de Neovim"
+                                />
                             </div>
                         </div>
                     </div>
@@ -782,9 +795,11 @@ import "../../styles/portfolio.css";
                 >
             </p>
         </footer>
+        </main>
 
 	<script>
 		import '../../scripts/portfolio.js';
+		import '../../scripts/about-cmdline.js';
 	</script>
     </body>
 </html>

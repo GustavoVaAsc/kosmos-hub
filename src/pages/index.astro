@@ -1,66 +1,142 @@
 ---
 import BaseHead from "../components/BaseHead.astro";
-import MenuOption from "../components/MenuOption.astro";
+import Statusline from "../components/Statusline.astro";
 import { SITE_TITLE, SITE_DESCRIPTION, base } from "../consts";
 import "../styles/main-menu.css";
 ---
 
 <!doctype html>
 <html lang="es">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-		<link rel="preconnect" href="https://fonts.googleapis.com" />
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-		<link
-			href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
-			rel="stylesheet"
-		/>
-		<script
-			is:inline
-			type="application/ld+json"
-			set:html={JSON.stringify({
-				'@context': 'https://schema.org',
-				'@type': 'WebSite',
-				name: 'Kosmos Hub',
-				url: 'https://gustavovaasc.github.io/kosmos-hub',
-				description: 'Welcome to my personal website!',
-				inLanguage: 'es',
-			})}
-		/>
-	</head>
-	<body>
-		<div class="main-menu-container">
-			<div class="logo-container">
-				<div class="logo">
-					<img src={`${base}/logo.png`} alt="Logo" />
-				</div>
-				<h1 class="main-title">Gustavo Valenzuela</h1>
-				<p class="main-subtitle">Welcome to my hub</p>
-			</div>
+    <head>
+        <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&display=swap"
+            rel="stylesheet"
+        />
+        <script
+            is:inline
+            type="application/ld+json"
+            set:html={JSON.stringify({
+                '@context': 'https://schema.org',
+                '@type': 'WebSite',
+                name: 'Kosmos Hub',
+                url: 'https://gustavovaasc.github.io/kosmos-hub',
+                description: 'Welcome to my personal website!',
+                inLanguage: 'es',
+            })}
+        />
+    </head>
+    <body>
+        <a class="skip-to-content" href="#main-content">Saltar al contenido</a>
 
-			<div class="menu-grid">
-				<MenuOption
-					title="Mis clases para CPCFI"
-					description="Explora clases de programación competitiva, algoritmos y estructuras de datos"
-					href={`${base}/club-classes`}
-					icon="🏆"
-					colorClass="red"
-				/>
-				<MenuOption
-					title="Sobre mí"
-					description="Conoce mis habilidades, proyectos y experiencia"
-					href={`${base}/about-me`}
-					icon="👨‍💻"
-					colorClass="purple"
-				/>
-				<MenuOption
-					title="Mi blog"
-					description="Artículos sobre programación, tecnología y proyectos personales"
-					href={`${base}/blog`}
-					icon="✍️"
-					colorClass="blue"
-				/>
-			</div>
-		</div>
-	</body>
+        <Statusline
+            path="kosmos-hub"
+            column="Ln 1, Col 1"
+            encoding="utf-8 unix"
+        />
+
+        <main id="main-content" class="main-menu">
+            <section
+                class="terminal-window"
+                aria-label="Terminal interactivo de navegación"
+            >
+                <header class="terminal-banner">
+                    <h1>Bienvenido a kosmos-hub</h1>
+                    <p>Escribe un comando o haz clic para navegar.</p>
+                </header>
+
+                <nav
+                    class="terminal-commands"
+                    aria-label="Comandos del menú"
+                >
+                    <a
+                        href={`${base}/club-classes`}
+                        class="terminal-cmd"
+                        data-cmd="classes"
+                    >
+                        <span class="terminal-cmd-prefix" aria-hidden="true">:</span><span
+                            class="terminal-cmd-name">classes</span
+                        >
+                        <span class="terminal-cmd-desc">Mis clases para CPCFI</span>
+                    </a>
+                    <a
+                        href={`${base}/about-me`}
+                        class="terminal-cmd"
+                        data-cmd="about"
+                    >
+                        <span class="terminal-cmd-prefix" aria-hidden="true">:</span><span
+                            class="terminal-cmd-name">about</span
+                        >
+                        <span class="terminal-cmd-desc">Sobre mí</span>
+                    </a>
+                    <a
+                        href={`${base}/blog`}
+                        class="terminal-cmd"
+                        data-cmd="blog"
+                    >
+                        <span class="terminal-cmd-prefix" aria-hidden="true">:</span><span
+                            class="terminal-cmd-name">blog</span
+                        >
+                        <span class="terminal-cmd-desc">Mi blog</span>
+                    </a>
+                </nav>
+
+                <hr class="terminal-divider" />
+
+                <form
+                    class="terminal-prompt"
+                    id="terminal-form"
+                    autocomplete="off"
+                >
+                    <label
+                        for="terminal-input"
+                        class="terminal-prompt-label"
+                    >
+                        gustavo@kosmos-hub:~$
+                    </label>
+                    <span class="terminal-input-row">
+                        <input
+                            type="text"
+                            id="terminal-input"
+                            class="terminal-input"
+                            autocomplete="off"
+                            spellcheck="false"
+                            autocapitalize="off"
+                            autocorrect="off"
+                            aria-label="Comando de terminal"
+                        />
+                        <span class="nvim-cursor terminal-cursor" aria-hidden="true"
+                            >█</span
+                        >
+                    </span>
+                </form>
+
+                <output
+                    class="terminal-output"
+                    id="terminal-output"
+                    aria-live="polite"
+                ></output>
+            </section>
+
+            <button
+                type="button"
+                class="keyboard-toggle"
+                id="keyboard-toggle"
+                aria-pressed="false"
+                aria-controls="terminal-form"
+            >
+                Mostrar teclado
+            </button>
+
+            <p class="terminal-hint">
+                Tip: Tab autocompleta · Esc limpia · Enter ejecuta
+            </p>
+        </main>
+
+        <script>
+            import "../scripts/menu-terminal.js";
+        </script>
+    </body>
 </html>
