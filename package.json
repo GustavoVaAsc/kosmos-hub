@@ -15,5 +15,11 @@
     "astro": "^5.16.15",
     "katex": "^0.16.28",
     "sharp": "^0.34.3"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "sharp"
+    ]
   }
 }
