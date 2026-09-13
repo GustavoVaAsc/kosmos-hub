@@ -217,7 +217,7 @@ body {
 
 .terminal-cmd-prefix,
 .terminal-cmd-name {
-    color: #7aa2f7;
+    color: #6366f1;
     font-weight: 600;
     font-size: 1rem;
     line-height: 1.2;
@@ -411,7 +411,7 @@ body {
 
 .setup-list li::before {
     content: "·";
-    color: #7aa2f7;
+    color: #6366f1;
     position: absolute;
     left: 0;
     top: 0;
