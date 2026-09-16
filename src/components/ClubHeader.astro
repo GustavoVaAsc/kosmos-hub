@@ -1,25 +1,35 @@
 ---
-import { base } from "../consts";
+import { getCollection } from 'astro:content';
+import { base } from '../consts';
 
 interface Props {
-    currentPage?: string;
+    /**
+     * Either the literal string "menu" (for the class-selection index),
+     * or a `CollectionEntry<'clubClasses'>` whose `data.title` becomes
+     * the header label. Accepting the entry lets the header render the
+     * right title without per-slug hardcoding.
+     */
+    currentPage?: 'menu' | { data: { title: string }; id: string };
 }
 
-const { currentPage = "menu" } = Astro.props;
+const { currentPage = 'menu' } = Astro.props;
 
-const classes = [
-    { name: "Binary Search Tree", slug: "bst", icon: "🌳" },
-    { name: "Kadane's Algorithm", slug: "kadane", icon: "📊" },
-];
+// Slide menu lists every entry (published + drafts) so the user can
+// jump directly from any class page to any other. Drafts render with
+// muted styling and a "draft" badge so they're visible as a roadmap
+// without pretending to be navigable destinations (they 404 on click
+// since drafts are filtered out of the dynamic route's getStaticPaths).
+const allEntries = (await getCollection('clubClasses')).sort(
+    (a, b) =>
+        (a.data.order ?? 0) - (b.data.order ?? 0) ||
+        a.data.title.localeCompare(b.data.title),
+);
 
-// Determine the page title based on currentPage
-const getPageTitle = () => {
-    if (currentPage === "menu") return "CPCFI Classes";
-    const currentClass = classes.find((cls) => cls.slug === currentPage);
-    return currentClass ? currentClass.name : "CPCFI Classes";
-};
+const pageTitle =
+    currentPage === 'menu'
+        ? 'CPCFI Classes'
+        : currentPage.data.title;
 
-const pageTitle = getPageTitle();
 ---
 
 <header class="club-header-nav">
@@ -73,21 +83,28 @@ const pageTitle = getPageTitle();
         <li>
             <a
                 href={`${base}/club-classes`}
-                class={currentPage === "menu" ? "active" : ""}
+                class={currentPage === 'menu' ? 'active' : ''}
             >
-                <span class="menu-icon">📚</span>
                 <span>All Classes</span>
             </a>
         </li>
         {
-            classes.map((cls) => (
+            allEntries.map((entry) => (
                 <li>
                     <a
-                        href={`${base}/club-classes/${cls.slug}`}
-                        class={currentPage === cls.slug ? "active" : ""}
+                        href={`${base}/club-classes/${entry.id}`}
+                        class={
+                            currentPage !== 'menu' &&
+                            currentPage.id === entry.id
+                                ? 'active'
+                                : ''
+                        }
+                        data-draft={entry.data.draft ? 'true' : undefined}
                     >
-                        <span class="menu-icon">{cls.icon}</span>
-                        <span>{cls.name}</span>
+                        <span class="menu-entry-title">{entry.data.title}</span>
+                        {entry.data.draft && (
+                            <span class="menu-entry-draft">draft</span>
+                        )}
                     </a>
                 </li>
             ))
@@ -95,7 +112,7 @@ const pageTitle = getPageTitle();
     </ul>
 
     <div class="menu-footer">
-        <a href={base || "/"} class="home-link">
+        <a href={base || '/'} class="home-link">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                 <path
                     d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z"
@@ -199,8 +216,9 @@ const pageTitle = getPageTitle();
     /* Header Title */
     .header-title {
         margin: 0;
-        font-size: 1.25rem;
-        font-weight: 600;
+        font-size: 1.2rem;
+        font-weight: 700;
+        letter-spacing: -0.005em;
         color: var(--club-text-primary);
         white-space: nowrap;
         overflow: hidden;
@@ -369,10 +387,36 @@ const pageTitle = getPageTitle();
         font-weight: 600;
     }
 
-    .menu-icon {
-        font-size: 1.5rem;
-        width: 32px;
-        text-align: center;
+    .menu-list a .menu-entry-draft {
+        display: inline-block;
+        margin-left: 0.5rem;
+        padding: 0.05rem 0.4rem;
+        font-size: 0.65rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--club-text-muted);
+        background: var(--club-bg-tertiary);
+        border: 1px solid #3e3e42;
+        border-radius: 3px;
+    }
+
+    .menu-list a[data-draft="true"] {
+        color: var(--club-text-muted);
+    }
+
+    .menu-list a[data-draft="true"]:hover {
+        color: var(--club-text-secondary);
+        background: rgba(255, 255, 255, 0.03);
+    }
+
+    .menu-published-count {
+        padding: 0.5rem 1.5rem;
+        color: var(--club-text-muted);
+        font-size: 0.8rem;
+        font-variant-numeric: tabular-nums;
+        border-top: 1px solid #3e3e42;
+        margin-top: 0.5rem;
     }
 
     /* Menu Footer */
@@ -414,44 +458,55 @@ const pageTitle = getPageTitle();
 </style>
 
 <script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const hamburgerBtn = document.getElementById("hamburger-btn");
-        const closeMenuBtn = document.getElementById("close-menu-btn");
-        const slideMenu = document.getElementById("slide-menu");
-        const menuOverlay = document.getElementById("menu-overlay");
+    document.addEventListener('DOMContentLoaded', () => {
+        const hamburgerBtn = document.getElementById('hamburger-btn');
+        const closeMenuBtn = document.getElementById('close-menu-btn');
+        const slideMenu = document.getElementById('slide-menu');
+        const menuOverlay = document.getElementById('menu-overlay');
 
         const openMenu = () => {
-            slideMenu?.classList.add("active");
-            menuOverlay?.classList.add("active");
-            document.body.style.overflow = "hidden";
+            slideMenu?.classList.add('active');
+            menuOverlay?.classList.add('active');
+            document.body.style.overflow = 'hidden';
         };
 
         const closeMenu = () => {
-            slideMenu?.classList.remove("active");
-            menuOverlay?.classList.remove("active");
-            document.body.style.overflow = "";
+            slideMenu?.classList.remove('active');
+            menuOverlay?.classList.remove('active');
+            document.body.style.overflow = '';
         };
 
-        hamburgerBtn?.addEventListener("click", openMenu);
-        closeMenuBtn?.addEventListener("click", closeMenu);
-        menuOverlay?.addEventListener("click", closeMenu);
+        hamburgerBtn?.addEventListener('click', openMenu);
+        closeMenuBtn?.addEventListener('click', closeMenu);
+        menuOverlay?.addEventListener('click', closeMenu);
+
+        // Close the menu when any link inside it is clicked, so the
+        // destination page isn't blocked by the still-open overlay.
+        // Query at attach time AND on demand since the menu DOM exists
+        // once per page render, but event listeners survive navigation.
+        slideMenu?.querySelectorAll('a').forEach((link) => {
+            link.addEventListener('click', () => {
+                // Defer to the next frame so the navigation still fires.
+                requestAnimationFrame(closeMenu);
+            });
+        });
 
         // Language switch
-        const langButtons = document.querySelectorAll(".lang-btn");
+        const langButtons = document.querySelectorAll('.lang-btn');
         langButtons.forEach((btn) => {
-            btn.addEventListener("click", () => {
-                langButtons.forEach((b) => b.classList.remove("active"));
-                btn.classList.add("active");
+            btn.addEventListener('click', () => {
+                langButtons.forEach((b) => b.classList.remove('active'));
+                btn.classList.add('active');
 
-                const lang = btn.getAttribute("data-lang");
+                const lang = btn.getAttribute('data-lang');
                 console.log(`Language switched to: ${lang}`);
                 // TODO: Implement actual language switching logic
             });
         });
 
         // Close menu on escape key
-        document.addEventListener("keydown", (e) => {
-            if (e.key === "Escape" && slideMenu?.classList.contains("active")) {
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && slideMenu?.classList.contains('active')) {
                 closeMenu();
             }
         });

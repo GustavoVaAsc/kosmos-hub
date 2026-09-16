@@ -1,0 +1,661 @@
+---
+title: "Binary Search Tree (BST)"
+description: "std::set, std::map, std::multiset"
+pubDate: 2025-01-01
+difficulty: "medium"
+draft: false
+order: 38
+---
+
+import Math from "../../components/Math.astro";
+import { base } from "../../consts";
+
+<div class="club-section">
+    <h2>What is a Binary Tree</h2>
+    <p>
+        A binary tree is a tree data structure in which each node
+        has at most two children, referred to as the left child and
+        the right child. Usually we want to keep a property for this
+        tree structure. For example, a heap is a binary tree. The
+        main property of a heap is: for each subtree, the root is
+        the maximum (or minimum) element in that subtree.
+    </p>
+    <p>
+        For a subtree of three nodes <Math formula="A" />, <Math
+            formula="B"
+        />, <Math formula="C" />, where <Math formula="A" /> is the root,
+        <Math formula="B" />
+        is the left child, and <Math formula="C" /> is the right child,
+        the heap property is:
+    </p>
+    <Math
+        formula="A.val \geq B.val \text{ and } A.val \geq C.val \text{ (for max heap)}"
+        display={true}
+    />
+    <Math
+        formula="A.val \leq B.val \text{ and } A.val \leq C.val \text{ (for min heap)}"
+        display={true}
+    />
+    <p>An example of a max heap is shown below:</p>
+    <div class="club-image">
+        <img src={`${base}/media/heap.png`} alt="Max Heap" />
+    </div>
+</div>
+
+<div class="club-section">
+    <h2>Binary Search Tree (BST)</h2>
+    <p>
+        A Binary Search Tree (BST) is a binary tree data structure
+        with the following properties:
+    </p>
+    <ul>
+        <li>
+            The left subtree of a node contains only nodes with keys
+            less than the node's key.
+        </li>
+        <li>
+            The right subtree of a node contains only nodes with
+            keys greater than the node's key
+        </li>
+        <li>
+            Both the left and right subtrees must also be binary
+            search trees
+        </li>
+    </ul>
+
+    So, for a subtree of three nodes <Math formula="A" />, <Math
+        formula="B"
+    />, <Math formula="C" />, where <Math formula="A" /> is the root,
+    <Math formula="B" />
+    is the left child, and <Math formula="C" /> is the right child, the
+    BST property is:
+    <Math formula="B.val \leq A.val \leq C.val" display={true} />
+
+    This property is very useful for searching, inserting, and
+    deleting nodes in the tree. An example of a BST is shown below:
+    <div class="club-image">
+        <img src={`${base}/media/bst_subtree.png`} alt="BST" />
+    </div>
+</div>
+
+<div class="club-section">
+    <h2>BST operations</h2>
+    <ul>
+        <li>
+            <strong>Insertion <Math formula="O(log n)" /> in average case</strong>
+        </li>
+        <li>
+            <strong>Deletion <Math formula="O(log n)" /> in average case</strong>
+        </li>
+        <li>
+            <strong>Search <Math formula="O(log n)" /> in average case</strong>
+        </li>
+    </ul>
+
+    <h2>Insertion animation</h2>
+    <div class="club-image">
+        <video autoplay loop muted playsinline controls>
+            <source
+                src={`${base}/media/bst_insert.mp4`}
+                type="video/mp4"
+            />
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <h2>Search animation</h2>
+    <div class="club-image">
+        <video autoplay loop muted playsinline controls>
+            <source
+                src={`${base}/media/bst_search.mp4`}
+                type="video/mp4"
+            />
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <h2>Deletion animation</h2>
+    <div class="club-image">
+        <video autoplay loop muted playsinline controls>
+            <source
+                src={`${base}/media/bst_delete.mp4`}
+                type="video/mp4"
+            />
+            Your browser does not support the video tag.
+        </video>
+    </div>
+</div>
+
+<div class="club-section">
+    <h2>Degenerated case</h2>
+
+    A naive BST implementation could lead to create a case where the
+    tree is skewed, i.e., it looks like a linked list. This is
+    called a degenerated case. In this case, the time complexity of
+    the operations becomes O(n). Here is an animation of how the
+    degenerated case looks like:
+    <div class="club-image">
+        <video autoplay loop muted playsinline controls>
+            <source
+                src={`${base}/media/bst_degenerated.mp4`}
+                type="video/mp4"
+            />
+            Your browser does not support the video tag.
+        </video>
+    </div>
+</div>
+
+<div class="club-section">
+    <h2>Balanced BST</h2>
+    To avoid the degenerated case, we can use a balanced BST. A balanced
+    BST is a BST that is balanced, i.e., it is not skewed. In a balanced
+    BST, the height of the tree is O(log n). There are several types of
+    balanced BSTs, such as AVL trees, Red-Black trees, etc. Fortunately,
+    we don't need to implement a balanced BST ourselves (for now...).
+    We can use the built-in data structures in C++ that are based on balanced
+    BSTs, such as std::set, std::map, std::multiset, and std::multimap.
+    these structures are implemented over a red-black tree, which is a
+    type of balanced BST.
+
+    This implementation also guarantees that the elements will
+    always be sorted.
+</div>
+
+<div class="club-section">
+    <h2>std::set</h2>
+    <p>
+        std::set is an associative container that contains a sorted
+        set of unique objects of type Key. One of the properties we
+        like the most about the set is that it not contains
+        duplicates.
+    </p>
+    <h2>std::set operations</h2>
+    <p>
+        In C++, <code>std::set</code> is a container that stores unique
+        elements following a specific order. It's implemented as a balanced
+        BST (typically Red-Black Tree), making it very useful for competitive
+        programming.
+    </p>
+
+    <table class="operations-table">
+        <thead>
+            <tr>
+                <th>Operation</th>
+                <th>Complexity</th>
+                <th>What it does</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>insert(x)</code></td>
+                <td>O(log n)</td>
+                <td>Inserts element x into the set (no duplicates)</td>
+            </tr>
+            <tr>
+                <td><code>erase(x)</code></td>
+                <td>O(log n)</td>
+                <td>Removes element x from the set</td>
+            </tr>
+            <tr>
+                <td><code>erase(it)</code></td>
+                <td>O(1) amortized</td>
+                <td>Removes element at iterator position</td>
+            </tr>
+            <tr>
+                <td><code>find(x)</code></td>
+                <td>O(log n)</td>
+                <td>Returns iterator to x, or end() if not found</td>
+            </tr>
+            <tr>
+                <td><code>count(x)</code></td>
+                <td>O(log n)</td>
+                <td>Returns 1 if x exists, 0 otherwise</td>
+            </tr>
+            <tr>
+                <td><code>lower_bound(x)</code></td>
+                <td>O(log n)</td>
+                <td>Returns iterator to first element ≥ x</td>
+            </tr>
+            <tr>
+                <td><code>upper_bound(x)</code></td>
+                <td>O(log n)</td>
+                <td>Returns iterator to first element > x</td>
+            </tr>
+            <tr>
+                <td><code>begin()</code></td>
+                <td>O(1)</td>
+                <td>Returns iterator to smallest element</td>
+            </tr>
+            <tr>
+                <td><code>end()</code></td>
+                <td>O(1)</td>
+                <td>Returns iterator past the largest element</td>
+            </tr>
+            <tr>
+                <td><code>rbegin()</code></td>
+                <td>O(1)</td>
+                <td>Returns reverse iterator to largest element</td>
+            </tr>
+            <tr>
+                <td><code>rend()</code></td>
+                <td>O(1)</td>
+                <td>Returns reverse iterator before smallest
+                    element</td>
+            </tr>
+            <tr>
+                <td><code>size()</code></td>
+                <td>O(1)</td>
+                <td>Returns number of elements in the set</td>
+            </tr>
+            <tr>
+                <td><code>empty()</code></td>
+                <td>O(1)</td>
+                <td>Returns true if set is empty</td>
+            </tr>
+            <tr>
+                <td><code>clear()</code></td>
+                <td>O(n)</td>
+                <td>Removes all elements from the set</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p><strong>Tips:</strong></p>
+    <ul>
+        <li>
+            Use <code>lower_bound()</code> and <code>upper_bound()</code> to find ranges of values
+        </li>
+        <li>
+            <code>*s.begin()</code> gives you the minimum element in O(1)
+        </li>
+        <li>
+            <code>*s.rbegin()</code> gives you the maximum element in
+            O(1)
+        </li>
+    </ul>
+</div>
+
+<div class="club-section">
+    <h2>A wild CSES problem appeared</h2>
+    <p>Let's do the set hello world:</p>
+
+    <a
+        href="https://cses.fi/problemset/task/1621/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="club-problem"
+    >
+        <span class="club-problem-title">Distinct Numbers</span>
+        <span class="club-problem-difficulty easy">Easy</span>
+    </a>
+</div>
+
+<div class="club-section">
+    <h2>A wild Leetcode problem appeared</h2>
+    <p>Let's do the set hello world:</p>
+
+    <a
+        href="https://leetcode.com/problems/longest-substring-without-repeating-characters/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="club-problem"
+    >
+        <span>Longest Substring Without Repeating Characters</span>
+        <span class="club-problem-difficulty medium">Medium</span>
+    </a>
+</div>
+
+<div class="club-section">
+    <h2>std::map</h2>
+    <p>
+        std::map is an associative container that contains a sorted
+        set of unique key-value pairs. It allows us to store and
+        retrieve elements based on their keys, very useful for
+        mappings.
+    </p>
+</div>
+
+<div class="club-section">
+    <h2>std::map operations</h2>
+    <p>
+        In C++, <code>std::map</code> is a container that stores unique
+        key-value pairs in sorted order by key. It's implemented as a
+        balanced BST (typically Red-Black Tree), making it very useful
+        for competitive programming.
+    </p>
+    <p>
+        Internally it's a BST with pairs (key, value), so the
+        operations are done over the keys and we can store other
+        useful information in the value for fast queries.
+    </p>
+
+    <table class="operations-table">
+        <thead>
+            <tr>
+                <th>Operation</th>
+                <th>Complexity</th>
+                <th>What it does</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>m[key] = value</code></td>
+                <td>O(log n)</td>
+                <td>Inserts or updates key-value pair</td>
+            </tr>
+            <tr>
+                <td><code>m[key]</code></td>
+                <td>O(log n)</td>
+                <td>Access value by key (creates if not exists)</td>
+            </tr>
+            <tr>
+                <td><code>at(key)</code></td>
+                <td>O(log n)</td>
+                <td>Access value by key (throws if not exists)</td>
+            </tr>
+            <tr>
+                <td><code>insert(&#123;key, value&#125;)</code></td>
+                <td>O(log n)</td>
+                <td>Inserts key-value pair (no duplicates)</td>
+            </tr>
+            <tr>
+                <td><code>erase(key)</code></td>
+                <td>O(log n)</td>
+                <td>Removes element by key</td>
+            </tr>
+            <tr>
+                <td><code>erase(it)</code></td>
+                <td>O(1) amortized</td>
+                <td>Removes element at iterator position</td>
+            </tr>
+            <tr>
+                <td><code>find(key)</code></td>
+                <td>O(log n)</td>
+                <td>Returns iterator to key, or end() if not found</td>
+            </tr>
+            <tr>
+                <td><code>count(key)</code></td>
+                <td>O(log n)</td>
+                <td>Returns 1 if key exists, 0 otherwise</td>
+            </tr>
+            <tr>
+                <td><code>lower_bound(key)</code></td>
+                <td>O(log n)</td>
+                <td>Returns iterator to first element with key ≥
+                    given key</td>
+            </tr>
+            <tr>
+                <td><code>upper_bound(key)</code></td>
+                <td>O(log n)</td>
+                <td>Returns iterator to first element with key >
+                    given key</td>
+            </tr>
+            <tr>
+                <td><code>begin()</code></td>
+                <td>O(1)</td>
+                <td>Returns iterator to smallest key</td>
+            </tr>
+            <tr>
+                <td><code>end()</code></td>
+                <td>O(1)</td>
+                <td>Returns iterator past the largest key</td>
+            </tr>
+            <tr>
+                <td><code>rbegin()</code></td>
+                <td>O(1)</td>
+                <td>Returns reverse iterator to largest key</td>
+            </tr>
+            <tr>
+                <td><code>rend()</code></td>
+                <td>O(1)</td>
+                <td>Returns reverse iterator before smallest key</td>
+            </tr>
+            <tr>
+                <td><code>size()</code></td>
+                <td>O(1)</td>
+                <td>Returns number of key-value pairs</td>
+            </tr>
+            <tr>
+                <td><code>empty()</code></td>
+                <td>O(1)</td>
+                <td>Returns true if map is empty</td>
+            </tr>
+            <tr>
+                <td><code>clear()</code></td>
+                <td>O(n)</td>
+                <td>Removes all key-value pairs from the map</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p><strong>Tips:</strong></p>
+    <ul>
+        <li>
+            Use <code>m[key]</code> for quick access, but be careful -
+            it creates the key if it doesn't exist
+        </li>
+        <li>
+            Use <code>find()</code> or <code>count()</code> to check if
+            a key exists without creating it
+        </li>
+        <li>
+            <code>lower_bound()</code> and <code>upper_bound()</code> work on keys, not values
+        </li>
+        <li>
+            Iterate with <code>for(auto &#91;key, value&#93; : m)</code> in C++17+
+        </li>
+    </ul>
+</div>
+<div class="club-section">
+    <h2>A wild Codeforces Gym problem appeared</h2>
+
+    <a
+        href="https://codeforces.com/gym/104375/problem/A"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="club-problem"
+    >
+        <span class="club-problem-title">Aliases</span>
+        <span class="club-problem-difficulty easy">Easy</span>
+    </a>
+</div>
+
+<div class="club-section">
+    <h2>A wild LeetCode problem appeared</h2>
+
+    <a
+        href="https://leetcode.com/problems/group-anagrams/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="club-problem"
+    >
+        <span class="club-problem-title">Group Anagrams</span>
+        <span class="club-problem-difficulty medium">Medium</span>
+    </a>
+</div>
+
+<div class="club-section">
+    <h2>std::multiset</h2>
+    <p>
+        std::multiset is similar to std::set, but it allows
+        duplicate elements. This is extremely useful when you need
+        to maintain a sorted collection with duplicates, like
+        tracking frequencies while keeping elements sorted.
+    </p>
+</div>
+
+<div class="club-section">
+    <h2>std::multiset operations</h2>
+    <p>
+        In C++, <code>std::multiset</code> is a container that stores
+        elements in sorted order and allows duplicates. It's implemented
+        as a balanced BST (typically Red-Black Tree).
+    </p>
+
+    <table class="operations-table">
+        <thead>
+            <tr>
+                <th>Operation</th>
+                <th>Complexity</th>
+                <th>What it does</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>insert(x)</code></td>
+                <td>O(log n)</td>
+                <td>Inserts element x (allows duplicates)</td>
+            </tr>
+            <tr>
+                <td><code>erase(x)</code></td>
+                <td>O(log n + count)</td>
+                <td>Removes ALL occurrences of element x</td>
+            </tr>
+            <tr>
+                <td><code>erase(it)</code></td>
+                <td>O(1) amortized</td>
+                <td>Removes single element at iterator position</td>
+            </tr>
+            <tr>
+                <td><code>find(x)</code></td>
+                <td>O(log n)</td>
+                <td>Returns iterator to one occurrence of x, or
+                    end() if not found</td>
+            </tr>
+            <tr>
+                <td><code>count(x)</code></td>
+                <td>O(log n + count)</td>
+                <td>Returns number of occurrences of x</td>
+            </tr>
+            <tr>
+                <td><code>lower_bound(x)</code></td>
+                <td>O(log n)</td>
+                <td>Returns iterator to first element ≥ x</td>
+            </tr>
+            <tr>
+                <td><code>upper_bound(x)</code></td>
+                <td>O(log n)</td>
+                <td>Returns iterator to first element > x</td>
+            </tr>
+            <tr>
+                <td><code>equal_range(x)</code></td>
+                <td>O(log n)</td>
+                <td>Returns pair of iterators &#91;lower_bound,
+                    upper_bound&#93;</td>
+            </tr>
+            <tr>
+                <td><code>begin()</code></td>
+                <td>O(1)</td>
+                <td>Returns iterator to smallest element</td>
+            </tr>
+            <tr>
+                <td><code>end()</code></td>
+                <td>O(1)</td>
+                <td>Returns iterator past the largest element</td>
+            </tr>
+            <tr>
+                <td><code>rbegin()</code></td>
+                <td>O(1)</td>
+                <td>Returns reverse iterator to largest element</td>
+            </tr>
+            <tr>
+                <td><code>rend()</code></td>
+                <td>O(1)</td>
+                <td>Returns reverse iterator before smallest
+                    element</td>
+            </tr>
+            <tr>
+                <td><code>size()</code></td>
+                <td>O(1)</td>
+                <td>Returns total number of elements (including
+                    duplicates)</td>
+            </tr>
+            <tr>
+                <td><code>empty()</code></td>
+                <td>O(1)</td>
+                <td>Returns true if multiset is empty</td>
+            </tr>
+            <tr>
+                <td><code>clear()</code></td>
+                <td>O(n)</td>
+                <td>Removes all elements from the multiset</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p><strong>Tips:</strong></p>
+    <ul>
+        <li>
+            <code>erase(x)</code> removes ALL occurrences - use <code>erase(find(x))</code> to remove just one
+        </li>
+        <li>
+            <code>count(x)</code> can be slow if there are many duplicates
+            - consider using <code>equal_range()</code>
+        </li>
+        <li>
+            Perfect for maintaining a sorted frequency list or
+            priority queue with duplicates
+        </li>
+        <li>
+            Use <code>equal_range(x)</code> to get all occurrences of
+            x efficiently
+        </li>
+    </ul>
+</div>
+
+<div class="club-section">
+    <h2>A wild CSES problem appeared</h2>
+
+    <a
+        href="https://cses.fi/problemset/task/1163"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="club-problem"
+    >
+        <span class="club-problem-title">Traffic Lights</span>
+        <span class="club-problem-difficulty medium">Medium</span>
+    </a>
+</div>
+
+<div class="club-section">
+    <h2>A wild CSES problem appeared</h2>
+
+    <a
+        href="https://cses.fi/problemset/task/1073"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="club-problem"
+    >
+        <span class="club-problem-title">Towers</span>
+        <span class="club-problem-difficulty medium">Medium</span>
+    </a>
+</div>
+
+<div class="club-section">
+    <h2>A wild CSES problem appeared</h2>
+
+    <a
+        href="https://cses.fi/problemset/task/1091"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="club-problem"
+    >
+        <span class="club-problem-title">Towers</span>
+        <span class="club-problem-difficulty medium">Medium</span>
+    </a>
+</div>
+
+<div class="club-section">
+    <h2>A wild Codeforces Gym problem appeared</h2>
+    <p>Practice multiset with this problem:</p>
+
+    <a
+        href="https://codeforces.com/gym/104375/problem/D"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="club-problem"
+    >
+        <span class="club-problem-title">Dynamic Collection</span>
+        <span class="club-problem-difficulty medium">Medium</span>
+    </a>
+</div>

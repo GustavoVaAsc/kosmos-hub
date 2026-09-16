@@ -1,8 +1,17 @@
 ---
-import BaseHead from "../../components/BaseHead.astro";
-import ClubHeader from "../../components/ClubHeader.astro";
-import { SITE_TITLE, base } from "../../consts";
-import "../../styles/club-classes.css";
+import { getCollection } from 'astro:content';
+import BaseHead from '../../components/BaseHead.astro';
+import ClubHeader from '../../components/ClubHeader.astro';
+import { SITE_TITLE, base } from '../../consts';
+import '../../styles/club-classes.css';
+
+// Sort by `order` (manual curation), then by title for stable alphabetical
+// fallback when multiple entries share the same `order`.
+const entries = (await getCollection('clubClasses', ({ data }) => !data.draft)).sort(
+    (a, b) =>
+        (a.data.order ?? 0) - (b.data.order ?? 0) ||
+        a.data.title.localeCompare(b.data.title),
+);
 ---
 
 <!doctype html>
@@ -15,7 +24,7 @@ import "../../styles/club-classes.css";
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link
-            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap"
+            href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=JetBrains+Sans:wght@300;400;500;600;700;800&display=swap"
             rel="stylesheet"
         />
     </head>
@@ -26,39 +35,27 @@ import "../../styles/club-classes.css";
             <div class="club-header">
                 <h1 class="club-title">CPCFI Classes</h1>
                 <p class="club-subtitle">
-                    Competitive Programming & Data Structures
+                    Competitive Programming &amp; Data Structures
                 </p>
             </div>
 
             <div class="club-menu-grid">
-                <a href={`${base}/club-classes/bst`} class="club-menu-option">
-                    <div class="club-menu-icon">🌳</div>
-                    <div class="club-menu-content">
-                        <h2>Binary Search Tree (BST)</h2>
-                        <p>
-                            Learn about binary search trees, their properties,
-                            operations, and applications in competitive
-                            programming.
-                        </p>
-                    </div>
-                    <div class="club-menu-arrow">→</div>
-                </a>
-
-                <a
-                    href={`${base}/club-classes/kadane`}
-                    class="club-menu-option"
-                >
-                    <div class="club-menu-icon">📊</div>
-                    <div class="club-menu-content">
-                        <h2>Kadane's Algorithm</h2>
-                        <p>
-                            Master the maximum subarray problem using Kadane's
-                            algorithm and its variations for competitive
-                            programming contests.
-                        </p>
-                    </div>
-                    <div class="club-menu-arrow">→</div>
-                </a>
+                {
+                    entries.map((entry) => (
+                        <a
+                            href={`${base}/club-classes/${entry.id}`}
+                            class="club-menu-option"
+                        >
+                            <div class="club-menu-content">
+                                <span class="club-menu-name">{entry.data.title}</span>
+                                <span class="club-menu-subtitle">
+                                    {entry.data.description}
+                                </span>
+                            </div>
+                            <span class="club-menu-chevron" aria-hidden="true">›</span>
+                        </a>
+                    ))
+                }
             </div>
         </div>
     </body>
