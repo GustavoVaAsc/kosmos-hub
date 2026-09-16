@@ -28,6 +28,18 @@ body.club-theme {
     color: var(--club-text-primary);
     padding-top: 60px;
     /* Space for fixed header */
+    font-family: "JetBrains Sans", -apple-system, BlinkMacSystemFont,
+        "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-feature-settings: "cv11", "ss01";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body.club-theme code,
+body.club-theme pre,
+body.club-theme .code-block-container {
+    font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo,
+        Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
 .club-container {
@@ -60,29 +72,33 @@ body.club-theme {
 
 .club-header {
     text-align: center;
-    margin-bottom: 4rem;
+    margin-bottom: 3rem;
 }
 
 .club-title {
-    font-size: 3.5rem;
+    font-size: 3.25rem;
     font-weight: 800;
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
     background: var(--club-accent-gradient);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.025em;
+    line-height: 1.15;
 }
 
 .club-subtitle {
-    font-size: 1.3rem;
+    font-size: 1.15rem;
     color: var(--club-text-secondary);
     font-weight: 400;
+    letter-spacing: 0;
 }
 
+/* Selection menu — full-width horizontal rows */
 .club-menu-grid {
-    display: grid;
-    gap: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
     width: 100%;
     max-width: 900px;
     margin: 0 auto;
@@ -91,86 +107,67 @@ body.club-theme {
 .club-menu-option {
     display: flex;
     align-items: center;
-    gap: 2rem;
-    padding: 2.5rem 3rem;
+    gap: 1rem;
+    padding: 14px 18px;
     background: var(--club-bg-secondary);
-    border: 2px solid #3e3e42;
-    border-radius: 20px;
+    border: 1px solid #3e3e42;
+    border-radius: 6px;
     text-decoration: none;
     color: inherit;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    overflow: hidden;
-}
-
-.club-menu-option::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg,
-            transparent,
-            rgba(239, 68, 68, 0.1),
-            transparent);
-    transition: left 0.5s;
-}
-
-.club-menu-option:hover::before {
-    left: 100%;
+    transition: border-color 0.18s ease, background-color 0.18s ease;
 }
 
 .club-menu-option:hover {
-    transform: translateY(-5px);
-    background: var(--club-bg-tertiary);
     border-color: var(--club-accent-primary);
-    box-shadow: 0 20px 60px rgba(239, 68, 68, 0.3);
-}
-
-.club-menu-icon {
-    font-size: 4rem;
-    flex-shrink: 0;
-    transition: transform 0.3s;
-}
-
-.club-menu-option:hover .club-menu-icon {
-    transform: scale(1.1) rotate(5deg);
+    background: #2a2a2c;
 }
 
 .club-menu-content {
     flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
 }
 
-.club-menu-content h2 {
-    font-size: 2rem;
-    font-weight: 700;
-    margin: 0 0 0.5rem 0;
-    background: linear-gradient(135deg,
-            var(--club-text-primary) 0%,
-            rgba(235, 228, 228, 0.7) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+.club-menu-name {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--club-text-primary);
+    letter-spacing: -0.005em;
+    line-height: 1.3;
 }
 
-.club-menu-content p {
-    margin: 0;
-    color: var(--club-text-secondary);
-    font-size: 1.1rem;
-    line-height: 1.6;
+.club-menu-subtitle {
+    font-size: 0.85rem;
+    color: var(--club-text-muted);
+    font-weight: 400;
+    line-height: 1.4;
 }
 
-.club-menu-arrow {
-    font-size: 2.5rem;
-    color: rgba(239, 68, 68, 0.4);
-    transition: all 0.3s;
+.club-menu-count {
     flex-shrink: 0;
+    font-size: 0.8rem;
+    color: var(--club-text-muted);
+    font-variant-numeric: tabular-nums;
+    padding: 4px 10px;
+    background: var(--club-bg-tertiary);
+    border-radius: 4px;
+    border: 1px solid #3e3e42;
+    letter-spacing: 0.01em;
 }
 
-.club-menu-option:hover .club-menu-arrow {
-    transform: translateX(10px);
+.club-menu-chevron {
+    flex-shrink: 0;
+    color: var(--club-text-muted);
+    font-size: 1.5rem;
+    line-height: 1;
+    transition: color 0.18s ease, transform 0.18s ease;
+}
+
+.club-menu-option:hover .club-menu-chevron {
     color: var(--club-accent-primary);
+    transform: translateX(2px);
 }
 
 /* Back button styles removed - now using ClubHeader component */
@@ -186,45 +183,55 @@ body.club-theme {
 
 .club-content-header {
     text-align: center;
-    margin-bottom: 4rem;
+    margin-bottom: 3.5rem;
 }
 
 .club-content-title {
-    font-size: 3rem;
+    font-size: 2.75rem;
     font-weight: 800;
     margin-bottom: 1rem;
     background: var(--club-accent-gradient);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
 }
 
 .club-content-description {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     color: var(--club-text-secondary);
     max-width: 800px;
     margin: 0 auto;
-    line-height: 1.8;
+    line-height: 1.7;
 }
 
 .club-section {
     background: var(--club-bg-secondary);
     border: 1px solid #3e3e42;
-    border-radius: 16px;
-    padding: 2rem;
-    margin-bottom: 2rem;
+    border-radius: 12px;
+    padding: 1.75rem 1.85rem;
+    margin-bottom: 1.5rem;
 }
 
 .club-section h2 {
     color: var(--club-accent-primary);
-    margin-bottom: 1.5rem;
-    font-size: 2rem;
+    margin-bottom: 1.25rem;
+    font-size: 1.6rem;
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
 }
 
 .club-section p {
     color: var(--club-text-secondary);
-    line-height: 1.8;
-    margin-bottom: 1rem;
+    line-height: 1.7;
+    margin-bottom: 0.9rem;
+    font-weight: 400;
+}
+
+.club-section p:last-child {
+    margin-bottom: 0;
 }
 
 .club-section code {
@@ -232,7 +239,7 @@ body.club-theme {
     background: transparent;
     padding: 0;
     border: none;
-    font-family: 'Fira Code', monospace;
+    font-size: 0.92em;
 }
 
 /* Club Image and Video Styling */
@@ -280,7 +287,7 @@ body.club-theme {
     text-align: left;
     font-weight: 600;
     color: var(--club-accent-primary);
-    font-size: 1.1rem;
+    font-size: 0.85rem;
     text-transform: uppercase;
     letter-spacing: 0.05em;
 }
@@ -302,7 +309,7 @@ body.club-theme {
 .operations-table td {
     padding: 1rem 1.5rem;
     color: var(--club-text-secondary);
-    font-size: 1rem;
+    font-size: 0.95rem;
     line-height: 1.6;
 }
 
@@ -315,14 +322,16 @@ body.club-theme {
     color: #ffffff;
     padding: 0;
     border-radius: 0;
-    font-family: 'Fira Code', monospace;
-    font-size: 0.95rem;
+    font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo,
+        Monaco, Consolas, monospace;
+    font-size: 0.92rem;
     border: none;
 }
 
 .operations-table td:nth-child(2) {
     color: #ffffff;
-    font-family: 'Fira Code', monospace;
+    font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo,
+        Monaco, Consolas, monospace;
     font-weight: 500;
 }
 
@@ -420,54 +429,55 @@ body.club-theme {
 /* Responsive design */
 @media (max-width: 768px) {
     .club-title {
-        font-size: 2.5rem;
+        font-size: 2.4rem;
     }
 
     .club-subtitle {
-        font-size: 1.1rem;
-    }
-
-    .club-menu-option {
-        flex-direction: column;
-        text-align: center;
-        gap: 1.5rem;
-        padding: 2rem;
-    }
-
-    .club-menu-icon {
-        font-size: 3rem;
-    }
-
-    .club-menu-content h2 {
-        font-size: 1.5rem;
-    }
-
-    .club-menu-content p {
         font-size: 1rem;
     }
 
-    .club-menu-arrow {
-        transform: rotate(90deg);
+    .club-content-title {
+        font-size: 2.1rem;
     }
 
-    .club-menu-option:hover .club-menu-arrow {
-        transform: rotate(90deg) translateX(10px);
+    .club-menu-option {
+        gap: 0.85rem;
+        padding: 12px 14px;
     }
 
-    .club-back-button {
-        top: 1rem;
-        left: 1rem;
-        padding: 0.75rem 1.5rem;
+    .club-menu-name {
+        font-size: 1rem;
+    }
+
+    .club-menu-subtitle {
+        font-size: 0.8rem;
+    }
+
+    .club-menu-count {
+        font-size: 0.75rem;
+        padding: 3px 8px;
+    }
+
+    .club-menu-chevron {
+        font-size: 1.35rem;
+    }
+
+    .club-section {
+        padding: 1.4rem 1.5rem;
+    }
+
+    .club-section h2 {
+        font-size: 1.4rem;
     }
 }
 
 @media (max-width: 480px) {
     .club-title {
-        font-size: 2rem;
+        font-size: 1.95rem;
     }
 
     .club-subtitle {
-        font-size: 1rem;
+        font-size: 0.95rem;
     }
 
     .club-container {
@@ -476,5 +486,24 @@ body.club-theme {
 
     .club-content {
         padding: 6rem 1rem 2rem;
+    }
+
+    .club-menu-option {
+        flex-wrap: wrap;
+        gap: 0.6rem;
+    }
+
+    .club-menu-content {
+        flex-basis: calc(100% - 2.5rem);
+        order: 2;
+    }
+
+    .club-menu-count {
+        order: 3;
+        margin-left: auto;
+    }
+
+    .club-menu-chevron {
+        order: 4;
     }
 }
